@@ -20,4 +20,15 @@ Sovellus on kirjoitettu Python 3.11.4
 asennus:
 - lataa sovellus
 - aktivoi .venv
+Linux
+```
+>source ./.venv/bin/activate
+```
+Windows
+```
+>./.venv/bin/activate
+```
 - suorita flask run \suorce kansiossa
+```
+.\source>flask run
+```
