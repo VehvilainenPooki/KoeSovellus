@@ -1,10 +1,22 @@
 <title>KoeSovellus</title>
-<h1>Hei {{nimi}}</h1>
-<ul>
-    <img src="/static/lehtiku.png">
-</ul>
+<h1>Hei {{ kt }}!</h1>
+<h2>Kokeet:</h2>
 
-<form action="/login" method="GET">
-    <input type="submit" value="Kirjautuminen">
+<form action="/kurssi/11" method="POST">
+    TN2a
+    <input type="hidden" name="mode" value="0">
+    <input type="submit" value="avaa">
 </form>
 
+<form action="/kurssi/2" method="POST">
+    Raja-arvot
+    <input type="hidden" name="mode" value="0">
+    <input type="submit" value="avaa">
+</form>
+
+
+<form action="/kurssi/1" method="POST">
+    TN1
+    <input type="hidden" name="mode" value="0">
+    <input type="submit" value="avaa">
+</form>

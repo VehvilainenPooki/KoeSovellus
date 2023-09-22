@@ -13,3 +13,11 @@ Verkkosovellus, jossa voi luoda kokeita, suorittaa kokeita ja tarkistaa kokeita.
 - Automaattisia tarkistuksia yksinkertaisille tehtäville
 - Automaattinen pisteiden yhteen laskenta
 - 
+
+## Sovelluksen kokeileminen
+Sovellus on kirjoitettu Python 3.11.4
+
+asennus:
+- lataa sovellus
+- aktivoi .venv
+- suorita flask run \suorce kansiossa
