@@ -26,7 +26,7 @@ Linux
 ```
 Windows
 ```
->./.venv/bin/activate
+>./.venv/Scripts/activate
 ```
 - suorita flask run \suorce kansiossa
 ```
