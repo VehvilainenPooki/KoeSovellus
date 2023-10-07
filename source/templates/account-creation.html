@@ -1,0 +1,13 @@
+{% if session.username_in_use %}
+    <p>Käyttäjätunnus on jo käytössä.</p>
+{% endif %}
+<form action="/account-creation" method="POST">
+    <h3>Luo Käyttäjä:</h3>
+    <p>Tunnus:<br>
+    <input type="text" name="username"></p>
+    <p>Salasana:<br>
+    <input type="password" name="password"></p>
+    <p>Toista salasana:<br>
+    <input type="password_again" name="password_again"></p>
+    <input type="submit" value="Luo käyttäjä">
+</form>
