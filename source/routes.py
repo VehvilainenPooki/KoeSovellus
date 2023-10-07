@@ -2,9 +2,16 @@ from app import app
 import accountManager as aM
 from flask import redirect, render_template, request, session
 
+from os import getenv
+
+app.secret_key = getenv("SECRET_KEY")
+
 
 @app.route("/")
 def home():
+    #NO SECRET_KEY????
+    print("secret, url", getenv("SECRET_KEY"), getenv("DATABASE_URL"))
+    
     return render_template("home-page.html")
 
 @app.route("/login", methods=["GET","POST"])
