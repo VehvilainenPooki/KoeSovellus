@@ -1,5 +1,5 @@
 from app import app
-import accountManager
+import accountManager as aM
 from flask import redirect, render_template, request, session
 
 
@@ -9,17 +9,34 @@ def home():
 
 @app.route("/login", methods=["GET","POST"])
 def login():
-    if request.method == "POST":
-        1#todo Login attempt
+    session["incorrectLogin"] = False
+    if request.method == "GET":
+        return render_template("login.html")
+    
+    username = request.form["username"]
+    password = request.form["password"]
+    if (aM.check_account_exists(username)):
+        if (aM.check_password_correct(username, password)):
+            session["username"] = username
+            del session["incorrectLogin"]
+            return redirect("/profile")
 
+    session["incorrectLogin"] = True    
     return render_template("login.html")
+
+    
 
 @app.route("/account-creation", methods=["GET","POST"])
 def account_creation():
-    if request.method == "POST":
-        1#todo account creation
+    if request.method == "GET":
+        return render_template("account-creation.html")
+    
+    username = request.form["username"]
+    password = request.form["password"]
 
-    return render_template("account-creation.html")
+
+
+    
 
 @app.route("/profile", methods=["GET","POST"])
 def profile():
