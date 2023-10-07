@@ -15,12 +15,12 @@ def login():
     return render_template("login.html")
 
 @app.route("/account-creation", methods=["GET","POST"])
-def accountCreation():
+def account_creation():
     if request.method == "POST":
         1#todo account creation
 
     return render_template("account-creation.html")
 
-@app.route("/account-creation")
-def account_creation():
-    return render_template("account-creation.html")
+@app.route("/profile", methods=["GET","POST"])
+def profile():
+    return render_template("profile.html")
