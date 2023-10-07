@@ -34,6 +34,7 @@ def account_creation():
     username = request.form["username"]
     password = request.form["password"]
 
+    return render_template("account-creation.html")
 
 
     
