@@ -8,8 +8,8 @@ from db import db
 
 
 
-def check_does_account_exist(username):
-    sql = "SELECT id, password FROM users WHERE username=:username"
+def check_account_exists(username):
+    sql = "SELECT id FROM users WHERE username=:username"
     result = db.session.execute(text(sql), {"username":username})
     user = result.fetchone()
     print("Does account exist:")
@@ -19,8 +19,17 @@ def check_does_account_exist(username):
     print("True")
     return True
 
-def check_is_password_correct():
-    1
+def check_password_correct(username, password):
+    sql = "SELECT id, password FROM users WHERE username=:username"
+    result = db.session.execute(text(sql), {"username":username})
+    user = result.fetchone()
+    print("Is password correct:")
+    hash_value = user.password
+    if check_password_hash(hash_value, password):
+        print("True")
+        return True
+    print("False")
+    return False
 
 def create_account():
     1#todo
