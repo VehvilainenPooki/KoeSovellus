@@ -1,4 +1,7 @@
-<title>KoeSovellus</title>
+{% extends "layout.html" %}
+{% block title %}Kirjautuminen{% endblock %}
+{% block content %}
+
 {% if session.username_in_use %}
     <p>Käyttäjätunnus on jo käytössä.</p>
 {% endif %}
@@ -12,3 +15,5 @@
     <input type="password_again" name="password_again"></p>
     <input type="submit" value="Luo käyttäjä">
 </form>
+
+{% endblock %}

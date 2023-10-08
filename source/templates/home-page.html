@@ -1,16 +1,18 @@
-<title>KoeSovellus</title>
-<h1>KoeSovellus</h1>
+{% extends "layout.html" %}
+{% block title %}Kirjautuminen{% endblock %}
+{% block content %}
+
+<h1>Etusivu</h1>
+
 <ul>
     <img src="/static/lehtiku.png">
 </ul>
 <br>
 <br>
-<form action="/login" method="GET">
-    <input type="submit" value="Kirjautuminen">
-</form>
 
-<br>
 
 <form action="/account-creation" method="GET">
     <input type="submit" value="Tilin luonti">
 </form>
+
+{% endblock %}
