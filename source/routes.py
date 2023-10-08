@@ -47,3 +47,8 @@ def account_creation():
 @app.route("/profile", methods=["GET","POST"])
 def profile():
     return render_template("profile.html")
+
+@app.route("/logout")
+def logout():
+    del session["username"]
+    return redirect("/")
