@@ -9,7 +9,7 @@ app.secret_key = getenv("SECRET_KEY")
 
 @app.route("/")
 def home():
-    
+    session["admin"] = True
     return render_template("home-page.html")
 
 @app.route("/login", methods=["GET","POST"])
@@ -23,6 +23,8 @@ def login():
     if (aM.check_account_exists(username)):
         if (aM.check_password_correct(username, password)):
             session["username"] = username
+            if aM.check_admin(username):
+                session["admin"] = True
             del session["incorrectLogin"]
             return redirect("/profile")
 
@@ -33,13 +35,27 @@ def login():
 
 @app.route("/account-creation", methods=["GET","POST"])
 def account_creation():
-    if request.method == "GET":
-        return render_template("account-creation.html")
-    
-    username = request.form["username"]
-    password = request.form["password"]
+    if session["admin"]:
+            
+        if request.method == "GET":
+            return render_template("account-creation.html")
+        
+        username = request.form["username"]
+        password = request.form["password"]
+        password_again = request.form["password_again"]
+        is_admin = request.form["is_admin"]
 
-    return render_template("account-creation.html")
+        if is_admin == "on":
+            is_admin = 't'
+        else:
+            is_admin = 'f'
+
+        if password == password_again:
+            aM.create_account(username, password, is_admin)
+            return render_template("account-creation.html")
+
+        return render_template("account-creation.html")
+    return render_template("not-admin.html")
 
 
     
@@ -50,5 +66,12 @@ def profile():
 
 @app.route("/logout")
 def logout():
-    del session["username"]
+    try:
+        del session["username"]
+    except:
+        1
+    try:
+        del session["admin"]
+    except:
+        1
     return redirect("/")
