@@ -1,8 +1,15 @@
 # KoeSovellus
 Verkkosovellus, jossa voi luoda kokeita, suorittaa kokeita ja tarkistaa kokeita.
 
-## Keskeiset toiminnot
-- Opettaja ja Oppilas käyttäjien luominen
+## Toteutetut toiminnot:
+### Keskeiset toiminnot
+- Opettaja ja Oppilas käyttäjien luominen Eli user ja admin käyttäjä
+
+
+Olen jäänyt jälkeen tämän projektion kanssa, mutta toivon, että seuraavilla parilla viikolla minulla on paljon aikaa tehdä projekti loppuun
+
+## Tekemättömät toiminnot:
+### Keskeiset toiminnot
 - Kokeen luominen
 - Kokeen tekeminen
 - Kokeen arviointi
@@ -15,20 +22,53 @@ Verkkosovellus, jossa voi luoda kokeita, suorittaa kokeita ja tarkistaa kokeita.
 - 
 
 ## Sovelluksen kokeileminen
-Sovellus on kirjoitettu Python 3.11.4
+Sovellus on kirjoitettu Python 3.11.4 ja PostgreSQL 16. Sinulla tulee olla asennettuna ne. Jotkin muut versiot saattavat toimia myös.
 
 asennus:
 - lataa sovellus
-- aktivoi .venv
+- navigoi terminaalissa juuri kansioon
+- Luo venv
+```
+.\root\> python -m venv venv
+```
+- Aktivoi venv
 Linux
 ```
->source ./.venv/bin/activate
+.\root\> ./.venv/bin/activate
 ```
 Windows
 ```
->./.venv/Scripts/activate
+.\root\>./.venv/Scripts/activate
 ```
-- suorita flask run \suorce kansiossa
+- asenna vaadittavat kirjastot
 ```
-.\source>flask run
+.\root\>pip install requirements.txt
 ```
+Luo ohjelman juureen .env tiedosto ja lisää sinne
+```
+DATABASE_URL=<tietokannan-paikallinen-osoite> (esim DATABASE_URL=postgresql://<user>:<password>@localhost:5432/<user>)
+SECRET_KEY=<salainen-avain>
+```
+
+Varmista, että sinulla on tyhjä public Schema
+
+```
+.\root\>psql -U <user> # Missä <user> on joko postgres tai muu luomasi psql käyttäjä
+user=#DROP SCHEMA public CASCADE;
+user=#CREATE SCHEMA public;
+```
+- Poistu psql painamalla Ctrl+C
+- Aseta schema ohjelman mukaiseksi
+```
+.\root\>psql -U <user> -d <user> -f schema.sql# Missä <user> on joko postgres tai muu luomasi psql käyttäjä
+```
+- Navigoi source kansioon
+```
+.\root\>cd .\source\
+```
+- käynnistä sovellus
+```
+.\root\source\>flask run
+```
+
+Sovelluksessa on automaattisesti admin käyttäjä, jonka nimi on admin ja salasana on admin.
