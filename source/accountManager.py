@@ -31,7 +31,17 @@ def check_password_correct(username, password):
     print("False")
     return False
 
-def create_account(username, password):
+def check_admin(username):
+    sql = "SELECT is_admin FROM users WHERE username=:username"
+    result = db.session.execute(text(sql), {"username":username})
+    user = result.fetchone()
+    if user:
+        if user.is_admin == "t":
+            return True
+    return False
+
+
+def create_account(username, password, is_admin):
     sql = "SELECT id, password FROM users WHERE username=:username"
     result = db.session.execute(text(sql), {"username":username})
     user = result.fetchone()
@@ -42,8 +52,8 @@ def create_account(username, password):
         print("False")
         print("Adding user to (users) database.")
         hash_value = generate_password_hash(password)
-        sql = "INSERT INTO users (username, password) VALUES (:username, :password)"
-        db.session.execute(text(sql), {"username":username, "password":hash_value})
+        sql = "INSERT INTO users (username, password, is_admin) VALUES (:username, :password, :is_admin)"
+        db.session.execute(text(sql), {"username":username, "password":hash_value, "is_admin":is_admin})
         db.session.commit()
         print("Account creation successful.")
         return True
