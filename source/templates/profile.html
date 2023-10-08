@@ -8,4 +8,13 @@
         <p>Olet kirjautunut nimellä {{ session.username }}</p>
         <a href="/logout">Kirjaudu ulos</a>
     {% endif %}
+    {% if session.admin%}
+    <br>
+    <br>
+
+
+    <form action="/account-creation" method="GET">
+        <input type="submit" value="Tilin luonti">
+    </form>
+    {% endif %}
 {% endblock %}
