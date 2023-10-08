@@ -46,8 +46,8 @@ Windows
 ```
 Luo ohjelman juureen .env tiedosto ja lisää sinne
 ```
-DATABASE_URL=<tietokannan-paikallinen-osoite> (esim DATABASE_URL=postgresql://<user>:<password>@localhost:5432/<user>)
-SECRET_KEY=<salainen-avain>
+DATABASE_URL=<tietokannan-paikallinen-osoite> (esim. DATABASE_URL=postgresql://<user>:<password>@localhost:5432/<user>)
+SECRET_KEY=<salainen-avain> (esim. SECRET_KEY="BAD_SECRET_KEY")
 ```
 
 Varmista, että sinulla on tyhjä public Schema
