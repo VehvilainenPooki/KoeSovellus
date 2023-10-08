@@ -1,18 +1,18 @@
 {% extends "layout.html" %}
-{% block title %}Kirjautuminen{% endblock %}
+
+{% block title %}Etusivu{% endblock %}
+
 {% block content %}
+    <h1>Etusivu</h1>
 
-<h1>Etusivu</h1>
-
-<ul>
-    <img src="/static/lehtiku.png">
-</ul>
-<br>
-<br>
+    <ul>
+        <img src="/static/lehtiku.png">
+    </ul>
+    <br>
+    <br>
 
 
-<form action="/account-creation" method="GET">
-    <input type="submit" value="Tilin luonti">
-</form>
-
+    <form action="/account-creation" method="GET">
+        <input type="submit" value="Tilin luonti">
+    </form>
 {% endblock %}
