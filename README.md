@@ -32,10 +32,12 @@ asennus:
 .\root\> python -m venv venv
 ```
 - Aktivoi venv
+
 Linux
 ```
 .\root\> ./.venv/bin/activate
 ```
+
 Windows
 ```
 .\root\>./.venv/Scripts/activate
