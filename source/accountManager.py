@@ -36,7 +36,7 @@ def check_admin(username):
     result = db.session.execute(text(sql), {"username":username})
     user = result.fetchone()
     if user:
-        if user.is_admin == "t":
+        if user.is_admin:
             return True
     return False
 
