@@ -9,7 +9,7 @@ app.secret_key = getenv("SECRET_KEY")
 
 @app.route("/")
 def home():
-    session["admin"] = True
+    session["admin"] = False
     return render_template("home-page.html")
 
 @app.route("/login", methods=["GET","POST"])
@@ -35,6 +35,7 @@ def login():
 
 @app.route("/account-creation", methods=["GET","POST"])
 def account_creation():
+    print(session["admin"]) 
     if session["admin"]:
             
         if request.method == "GET":
@@ -62,16 +63,17 @@ def account_creation():
 
 @app.route("/profile", methods=["GET","POST"])
 def profile():
-    return render_template("profile.html")
+    try:
+        if session["username"]:
+            return render_template("profile.html")
+    except:
+        1
+    return redirect("/")
 
 @app.route("/logout")
 def logout():
     try:
         del session["username"]
-    except:
-        1
-    try:
-        del session["admin"]
     except:
         1
     return redirect("/")
