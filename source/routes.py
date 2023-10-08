@@ -9,8 +9,6 @@ app.secret_key = getenv("SECRET_KEY")
 
 @app.route("/")
 def home():
-    #NO SECRET_KEY????
-    print("secret, url", getenv("SECRET_KEY"), getenv("DATABASE_URL"))
     
     return render_template("home-page.html")
 
