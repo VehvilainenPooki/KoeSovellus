@@ -35,7 +35,6 @@ def login():
 
 @app.route("/account-creation", methods=["GET","POST"])
 def account_creation():
-    print(session["admin"]) 
     if session["admin"]:
             
         if request.method == "GET":
@@ -44,9 +43,9 @@ def account_creation():
         username = request.form["username"]
         password = request.form["password"]
         password_again = request.form["password_again"]
-        is_admin = request.form["is_admin"]
-
-        if is_admin == "on":
+        
+        is_admin = request.form.get("is_admin")
+        if is_admin:
             is_admin = 't'
         else:
             is_admin = 'f'
@@ -63,6 +62,7 @@ def account_creation():
 
 @app.route("/profile", methods=["GET","POST"])
 def profile():
+    print("profile admin check",session["admin"])
     try:
         if session["username"]:
             return render_template("profile.html")
