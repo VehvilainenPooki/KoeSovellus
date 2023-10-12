@@ -79,3 +79,10 @@ user=# CREATE SCHEMA public;
 ```
 
 Sovelluksessa on automaattisesti admin käyttäjä, jonka nimi on admin ja salasana on admin.
+
+Juuri kansiossa on myös test_data.sql, jossa on 15 perus käyttäjää ja 3 admin käyttäjää. Nämä käyttäjät voi lisätä tietokantaan samalla komennolla kuin skeman:
+```
+.\root\> psql -U <user> -d <user> -f test_data.sql 
+
+#Missä <user> on joko postgres tai muu luomasi psql käyttäjä
+```
