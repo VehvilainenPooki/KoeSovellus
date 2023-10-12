@@ -28,7 +28,7 @@ INSERT INTO users(username, password, is_admin) VALUES (
 );
 
 INSERT INTO users(username, password, is_admin) VALUES (
-    'TestaUwU'
+    'TestaUwU',
     'pbkdf2:sha256:600000$6STbiFUdEUugSDr4$d955a6ba454fe0531c679429e8cdbf375f90f4262fd1b4c275a14626a51d9c62', --Kawai
     'f'
 );
@@ -116,3 +116,4 @@ INSERT INTO users(username, password, is_admin) VALUES (
     'pbkdf2:sha256:600000$LJWGeHLpl0FwAr4j$f8af23dc71186cae5837dae390646ac902cc429ada1d09d36cde25e206c7e2fa', --BlenderRender
     't'
 );
+
