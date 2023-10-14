@@ -20,10 +20,10 @@ def check_account_exists(username):
     return True
 
 def check_password_correct(username, password):
+    print("Checking if password is correct:")
     sql = "SELECT id, password FROM users WHERE username=:username"
     result = db.session.execute(text(sql), {"username":username})
     user = result.fetchone()
-    print("Is password correct:")
     hash_value = user.password
     if check_password_hash(hash_value, password):
         print("True")
@@ -60,3 +60,21 @@ def create_account(username, password, is_admin):
     print("True")
     print("Account creation failed. Username already in use.")
     return False
+
+def change_password(username, oldPassword, newPassword):
+    print("Changing password:")
+    print("-Checking if password correct")
+    if check_password_correct(username, oldPassword):
+        print("--True")
+        sql = "UPDATE users SET password=:password WHERE username=:username"
+        result = db.session.execute(text(sql), {"username":username, "password":newPassword})
+        return True
+    print("--False")
+    print("Password change failed")
+    return False
+
+def change_user_password_as_admin(admin_username, admin_password, username, newPassword):
+    print("[admin]Changing users password:")
+    print("-Checking if adminusercorrect")
+    if check_password_correct(admin_username, admin_password):
+
