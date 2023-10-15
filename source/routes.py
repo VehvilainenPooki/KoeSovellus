@@ -9,7 +9,11 @@ app.secret_key = getenv("SECRET_KEY")
 
 @app.route("/")
 def home():
-    session["admin"] = False
+    try:
+        session["admin"]
+    except:        
+        session["admin"] = False
+    
     return render_template("home-page.html")
 
 @app.route("/login", methods=["GET","POST"])
@@ -20,13 +24,13 @@ def login():
     
     username = request.form["username"]
     password = request.form["password"]
-    if (aM.check_account_exists(username)):
-        if (aM.check_password_correct(username, password)):
-            session["username"] = username
-            if aM.check_admin(username):
-                session["admin"] = True
-            del session["incorrectLogin"]
-            return redirect("/profile")
+
+    if (aM.is_correct_user_password(username, password)):
+        session["username"] = username
+        if aM.is_user_admin(username):
+            session["admin"] = True
+        del session["incorrectLogin"]
+        return redirect("/profile")
 
     session["incorrectLogin"] = True    
     return render_template("login.html")
@@ -76,4 +80,5 @@ def logout():
         del session["username"]
     except:
         1
+    session["admin"] = False
     return redirect("/")
