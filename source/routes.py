@@ -15,27 +15,13 @@ def home():
         session["admin"] = False
     
     return render_template("home-page.html")
-
-@app.route("/login", methods=["GET","POST"])
-def login():
-    session["incorrectLogin"] = False
-    if request.method == "GET":
-        return render_template("login.html")
     
-    username = request.form["username"]
-    password = request.form["password"]
 
-    if (aM.is_correct_user_password(username, password)):
-        session["username"] = username
-        if aM.is_user_admin(username):
-            session["admin"] = True
-        del session["incorrectLogin"]
-        return redirect("/profile")
 
-    session["incorrectLogin"] = True    
-    return render_template("login.html")
 
-    
+
+
+#------------Account Management-------------
 
 @app.route("/account-creation", methods=["GET","POST"])
 def account_creation():
@@ -61,8 +47,24 @@ def account_creation():
         return render_template("account-creation.html")
     return render_template("not-admin.html")
 
-
+@app.route("/login", methods=["GET","POST"])
+def login():
+    session["incorrectLogin"] = False
+    if request.method == "GET":
+        return render_template("login.html")
     
+    username = request.form["username"]
+    password = request.form["password"]
+
+    if (aM.is_correct_user_password(username, password)):
+        session["username"] = username
+        if aM.is_user_admin(username):
+            session["admin"] = True
+        del session["incorrectLogin"]
+        return redirect("/profile")
+
+    session["incorrectLogin"] = True    
+    return render_template("login.html")    
 
 @app.route("/profile", methods=["GET","POST"])
 def profile():
@@ -73,6 +75,8 @@ def profile():
     except:
         1
     return redirect("/")
+
+@app.route("/change-password", methods=["GET", "POST"])
 
 @app.route("/logout")
 def logout():
