@@ -10,15 +10,17 @@ CREATE TABLE exams (
     examname TEXT UNIQUE, 
     start_key TEXT,
     active BOOLEAN,
-    exercises TEXT
+    exercises SET,
+    exercise_type set,
+    points SET
 );
 
 CREATE TABLE exam_results (
     id SERIAL PRIMARY KEY, 
     examname TEXT UNIQUE, 
     username TEXT,
-    points TEXT,
-    notes TEXT
+    score SET,
+    notes SET
 );
 
 INSERT INTO users(username, password, is_admin) VALUES (
