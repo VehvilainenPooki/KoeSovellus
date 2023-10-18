@@ -7,14 +7,19 @@
     {% if session.username %}
         <p>Olet kirjautunut nimellä {{ session.username }}</p>
         <a href="/logout">Kirjaudu ulos</a>
+        <br>
+        <br>
+        {% if session.admin%}
+            <br>
+            <br>
+            <form action="/account-creation" method="GET">
+                <input type="submit" value="Tilin luonti">
+            </form>
+        {% endif %}
+        <form action="/change-password" method="GET">
+            <input type="submit" value="Vaihda salasana">
+        </form>
     {% endif %}
-    {% if session.admin%}
-    <br>
-    <br>
+    
 
-
-    <form action="/account-creation" method="GET">
-        <input type="submit" value="Tilin luonti">
-    </form>
-    {% endif %}
 {% endblock %}
