@@ -68,21 +68,44 @@ def login():
 
 @app.route("/profile", methods=["GET","POST"])
 def profile():
-    print("profile admin check",session["admin"])
     try:
         if session["username"]:
             return render_template("profile.html")
     except:
         1
-    return redirect("/")
+    return render_template("/not-logged-in.html")
+
+
 
 @app.route("/change-password", methods=["GET", "POST"])
+def change_password():
+    try:
+        if session["username"]:
+            if request.method == "GET":
+                session["notMatching"] = False
+                session["incorrectPassword"] = False
+                session["changeSuccessful"] = False
+                return render_template("change-password.html")
+            
+
+            oldPassword = request.form["oldPassword"]
+            newPassword = request.form["newPassword"]
+            newPasswordAgain = request.form["newPasswordAgain"]
+            if newPassword == newPasswordAgain:
+                if aM.is_correct_user_password(session["username"], oldPassword):
+                    aM.change_user_password(session["username"], oldPassword, newPassword)
+                    session["changeSuccessful"] = True
+                else:
+                    session["incorrectPassword"] = True
+                return render_template("change-password.html")
+            else:
+                session["notMatching"] = True
+    except:
+        1
+    return render_template("/not-logged-in.html")
 
 @app.route("/logout")
 def logout():
-    try:
-        del session["username"]
-    except:
-        1
+    session.clear()
     session["admin"] = False
     return redirect("/")

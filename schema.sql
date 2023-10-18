@@ -5,6 +5,21 @@ CREATE TABLE users (
     is_admin BOOLEAN
 );
 
+CREATE TABLE exams (
+    id SERIAL PRIMARY KEY, 
+    examname TEXT UNIQUE, 
+    start_key TEXT,
+    active BOOLEAN,
+    exercises TEXT
+);
+
+CREATE TABLE exam_results (
+    id SERIAL PRIMARY KEY, 
+    examname TEXT UNIQUE, 
+    username TEXT,
+    points TEXT,
+    notes TEXT,
+);
 
 INSERT INTO users(username, password, is_admin) VALUES (
     'admin',
