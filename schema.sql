@@ -18,7 +18,7 @@ CREATE TABLE exam_results (
     examname TEXT UNIQUE, 
     username TEXT,
     points TEXT,
-    notes TEXT,
+    notes TEXT
 );
 
 INSERT INTO users(username, password, is_admin) VALUES (
