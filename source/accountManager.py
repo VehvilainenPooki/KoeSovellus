@@ -94,13 +94,14 @@ def __change_password(username, password):
     hash_value = generate_password_hash(password)
     sql = "UPDATE users SET password=:password WHERE username=:username"
     result = db.session.execute(text(sql), {"username":username, "password":hash_value})
+    db.session.commit()
     return True
 
-def change_password(username, oldPassword, newPassword):
+def change_user_password(username, oldPassword, newPassword):
     user = get_user(username)
     if not user:
         return False
-    if __is_correct_password(user, oldPassword):
+    if not __is_correct_password(user.password, oldPassword):
         return False
 
     return __change_password(username, newPassword)
