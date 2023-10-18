@@ -2,8 +2,11 @@
 <title>KoeSovellus - {% block title %}{% endblock %}</title>
 
 <a style="text-align: left; float: left" href="/">KoeSovellus</a>
-<a style="text-align: right; float: right" href="/login">Kirjautuminen</a>
-
+{% if session.username %}
+    <a style="text-align: right; float: right" href="/profile">{{ session.username }}</a>
+{% else %}
+    <a style="text-align: right; float: right" href="/login">Kirjautuminen</a>
+{% endif %}
 <br>
 
 <hr>
