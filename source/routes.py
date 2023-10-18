@@ -19,7 +19,14 @@ def home():
 
 
 
-
+@app.route("/exam/<string:exam>", methods=["POST"])
+def exam(exam):
+    try:
+        if session["username"]:
+            return render_template("profile.html")
+    except:
+        1
+    return render_template("/not-logged-in.html")
 
 #------------Account Management-------------
 

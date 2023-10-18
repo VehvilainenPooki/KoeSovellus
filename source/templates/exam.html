@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block title %}Koe {{session.koe}}{% endblock %}
+
+{% block content %}
+    <h1>Koe {{session.koe}}</h1>
+    <form method="POST">
+        {% while i > 10 %}
+        <p>Tunnus:<br>
+        <input type="text" name="username"></p>
+        <p>Salasana:<br>
+        <input type="password" name="password"></p>
+        <input type="submit" value="Palauta">
+    </form>
+{% endblock %}
