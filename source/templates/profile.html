@@ -6,7 +6,12 @@
     <h1>Profiili</h1>
     {% if session.username %}
         <p>Olet kirjautunut nimellä {{ session.username }}</p>
-        <a href="/logout">Kirjaudu ulos</a>
+        <a style="position:absolute; top:40px; right:10px;" href="/logout">Kirjaudu ulos</a>
+        <form action="/exam" method="POST">
+            <input type="text" name="examname">
+            <input type="text" name="start_key">
+            <input type="submit" value="Aloita koe">
+        </form>
         <br>
         <br>
         {% if session.admin%}
