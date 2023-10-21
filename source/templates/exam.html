@@ -1,15 +1,17 @@
 {% extends "layout.html" %}
 
-{% block title %}Koe {{session.koe}}{% endblock %}
+{% block title %}Koe {{exam}}{% endblock %}
 
 {% block content %}
-    <h1>Koe {{session.koe}}</h1>
+    <h1>Koe {{exam}}</h1>
     <form method="POST">
-        {% while i > 10 %}
-        <p>Tunnus:<br>
-        <input type="text" name="username"></p>
-        <p>Salasana:<br>
-        <input type="password" name="password"></p>
+        {% for i in range(exercises | length) %}
+            <p>{{i}}. {{exercises[i]}}<br>
+            {% set name = "exercise" + (i | string) %}
+            <input type="textarea" name= "{{name}}"></p>
+            <p>/{{points[i]}}<br>
+        {% endfor %}
         <input type="submit" value="Palauta">
     </form>
+    
 {% endblock %}
