@@ -1,8 +1,13 @@
 from app import app
 import accountManager as aM
+import examManager as eM
 from flask import redirect, render_template, request, session
 
 from os import getenv
+
+#debug
+import sys
+
 
 app.secret_key = getenv("SECRET_KEY")
 
@@ -16,16 +21,56 @@ def home():
     
     return render_template("home-page.html")
     
-
-
-
-@app.route("/exam/<string:exam>", methods=["POST"])
-def exam(exam):
+#
+#
+#----------------Testataan tätä seuraavaksi:
+#
+#
+@app.route("/exam", methods=["POST"])
+def exam():
     try:
+        print(1)
         if session["username"]:
-            return render_template("profile.html")
+            print(2)
+            examname = request.form["examname"]
+            start_key = request.form["start_key"]
+            print(3)
+            exam = eM.get_exam(examname)
+            print(4)
+            if exam:
+                print(5)
+                if exam.start_key == start_key:
+                    print(6)
+                    url = "/exam/" + examname
+                    return redirect(url)
+            print(7)
+            return redirect("/profile")
+    except Exception:
+        print(Exception)
+    print(8)
+    return render_template("/not-logged-in.html")
+
+@app.route("/exam/<string:examname>", methods=["POST", "GET"])
+def exam_num(examname):
+    try:
+        print(1)
+        if session["username"]:
+            print(2)
+            #Would be great if this query could be removed. Passing the value from exam to here, but can't figure it out.
+            exam = eM.get_exam(examname)
+            if exam:
+                print(3)
+                return render_template("exam.html", exam=examname, exercises=exam.exercises, points=exam.points)
+            print(4)
+            return redirect("/profile")
+    except IOError as errno:
+        print("I/O error(", errno,")")
+    except ValueError:
+        print("value error")
     except:
-        1
+        print("Unexpected error:", sys.exc_info()[0])
+        raise
+    print(5)
     return render_template("/not-logged-in.html")
 
 #------------Account Management-------------
