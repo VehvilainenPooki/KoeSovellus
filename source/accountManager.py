@@ -13,7 +13,7 @@ accountManager is an interface for (users) database.
 
 
 def get_user(username):
-    '''get_user gets a user from db(users) with username:<username>'''
+    '''get_user gets an user from db(users) with username:<username>'''
     
     print("[users] get user:", username)
     
