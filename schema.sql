@@ -33,8 +33,8 @@ INSERT INTO exams(examname, start_key, active, exercises, points) VALUES (
     'Testikoe',
     'teStiAvain',
     'true',
-    ['Kerro elämästä', 'Mitä on kuolema', 'Kuka ja mitä', 'Missä on alku', 'Kuka sinä olet'],
-    [10,5,15,23,2]
+    '{"Kerro elämästä", "Mitä on kuolema", "Kuka ja mitä", "Missä on alku", "Kuka sinä olet"}',
+    '{10,5,15,23,2}'
 );
 
 
