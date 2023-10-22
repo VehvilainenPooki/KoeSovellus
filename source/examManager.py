@@ -6,7 +6,7 @@ from db import db
 examManager is an interface for (exams) database.
 '''
 
-
+#--------db(exams)-------------------
 def get_exam(examname):
     '''get_exam gets an exam from db(exams) with examname:<name>'''
     
@@ -50,6 +50,39 @@ def create_exam(examname, start_key):
         return True
     return False
 
+def remove_exam(examname):
+    '''remove_exam removes exam from db(exams).'''
+    print("[exams] Removing exam from", examname)
+    if get_exam(examname):
+        sql = "DELETE FROM exams WHERE examname=:examname"
+        db.session.execute(text(sql), {"examname":examname})
+        db.session.commit()
+        print("exam removed successfully.")
+        return True
+    return False
+
+def activate_exam(examname):
+    '''activate_exam activates exam so a user can do the exam.'''
+    print("[exams] Activating ", examname)
+    if get_exam(examname):
+        sql = "UPDATE exams SET active = TRUE WHERE examname=:examname"
+        db.session.execute(text(sql), {"examname":examname})
+        db.session.commit()
+        print("Exam activated successfully.")
+        return True
+    return False
+
+def deactivate_exam(examname):
+    '''deactivate_exam deactivates exam so a user can not do the exam.'''
+    print("[exams] Deactivating ", examname)
+    if get_exam(examname):
+        sql = "UPDATE exams SET active = FALSE WHERE examname=:examname"
+        db.session.execute(text(sql), {"examname":examname})
+        db.session.commit()
+        print("Exam deactivated successfully.")
+        return True
+    return False
+
 def add_exercise(examname, exercise, points):
     '''add_exercise adds exercice and points to exam with examname:<examname>.'''
     print("[exams] Adding exercise to", examname)
@@ -83,22 +116,9 @@ def remove_exercise(examname, index):
         return True
     return False
 
-def remove_exam(examname):
-    '''remove_exam removes exam from db(exams).'''
-    print("[exams] Removing exercise from", examname)
-    print(1)
-    if get_exam(examname):
-        print(2)
-        sql = "REMOVE * FROM exams WHERE examname=:examname"
-        db.session.execute(text(sql), {"examname":examname})
-        db.session.commit()
-        print(5)
-        print("exam removed successfully.")
-        return True
-    return False
 
-#---------exam_results-------------
 
+#---------db(exam_results)-------------
 def submit_answers(examname, username, answers):
     '''submit_answers saves answers:<answers> into db(exam_results) with examname:<examname> and username:<username>. It leaves notes and points empty.'''
     print("[exam_results] Adding", username, "answers to" , examname, ".")
