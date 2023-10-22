@@ -5,13 +5,14 @@ from flask import redirect, render_template, request, session
 
 from os import getenv
 
-#debug
 import sys
 
 
 app.secret_key = getenv("SECRET_KEY")
 
 
+
+#------------Home Page----------------------
 @app.route("/")
 def home():
     try:
@@ -21,59 +22,8 @@ def home():
     
     return render_template("home-page.html")
     
-#
-#
-#----------------Testataan tätä seuraavaksi:
-#
-#
-@app.route("/exam", methods=["POST"])
-def exam():
-    try:
-        print(1)
-        if session["username"]:
-            print(2)
-            examname = request.form["examname"]
-            start_key = request.form["start_key"]
-            print(3)
-            exam = eM.get_exam(examname)
-            print(4)
-            if exam:
-                print(5)
-                if exam.start_key == start_key:
-                    print(6)
-                    url = "/exam/" + examname
-                    return redirect(url)
-            print(7)
-            return redirect("/profile")
-    except Exception:
-        print(Exception)
-    print(8)
-    return render_template("/not-logged-in.html")
-
-@app.route("/exam/<string:examname>", methods=["POST", "GET"])
-def exam_num(examname):
-    try:
-        if session["username"]:
-            #Would be great if this query could be removed. Passing the value from exam to here, but can't figure it out.
-            exam = eM.get_exam(examname)
-            if exam:
-                if request.method == "POST":
-                    answers = []
-                    for i in range(len(exam.exercises)):
-                        exercise = "exercise" + str(i)
-                        answers.append(request.form[exercise])
-                    answers = str(answers).replace("[","{").replace("]","}")
-                    eM.submit_answers(exam.examname, session["username"], answers)
-                else:
-                    return render_template("exam.html", exam=examname, exercises=exam.exercises, points=exam.points)
-            return redirect("/profile")
-    except:
-        error = ("Unexpected error:", sys.exc_info()[0])
-        return render_template("error.html", error=error)
-    return render_template("/not-logged-in.html")
 
 #------------Account Management-------------
-
 @app.route("/account-creation", methods=["GET","POST"])
 def account_creation():
     if session["admin"]:
@@ -127,8 +77,6 @@ def profile():
         return render_template("error.html", error=error)
     return render_template("/not-logged-in.html")
 
-
-
 @app.route("/change-password", methods=["GET", "POST"])
 def change_password():
     try:
@@ -162,3 +110,58 @@ def logout():
     session.clear()
     session["admin"] = False
     return redirect("/")
+
+
+#-----------Creating Exams-----------------
+
+#------------Doing Exams-------------------
+@app.route("/exam", methods=["POST"])
+def exam():
+    try:
+        print(1)
+        if session["username"]:
+            print(2)
+            examname = request.form["examname"]
+            start_key = request.form["start_key"]
+            print(3)
+            exam = eM.get_exam(examname)
+            print(4)
+            if exam:
+                print(5)
+                if exam.start_key == start_key:
+                    print(6)
+                    url = "/exam/" + examname
+                    return redirect(url)
+            print(7)
+            return redirect("/profile")
+    except Exception:
+        print(Exception)
+    print(8)
+    return render_template("/not-logged-in.html")
+
+@app.route("/exam/<string:examname>", methods=["POST", "GET"])
+def exam_num(examname):
+    try:
+        if session["username"]:
+            #Would be great if this query could be removed. Passing the value from exam to here, but can't figure it out.
+            exam = eM.get_exam(examname)
+            if exam:
+                if request.method == "POST":
+                    answers = []
+                    for i in range(len(exam.exercises)):
+                        exercise = "exercise" + str(i)
+                        answers.append(request.form[exercise])
+                    answers = str(answers).replace("[","{").replace("]","}")
+                    eM.submit_answers(exam.examname, session["username"], answers)
+                else:
+                    return render_template("exam.html", exam=examname, exercises=exam.exercises, points=exam.points)
+            return redirect("/profile")
+    except:
+        error = ("Unexpected error:", sys.exc_info()[0])
+        return render_template("error.html", error=error)
+    return render_template("/not-logged-in.html")
+
+
+#-----------Reviewing Answers--------------
+
+
