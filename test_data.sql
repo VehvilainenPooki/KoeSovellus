@@ -117,3 +117,38 @@ INSERT INTO users(username, password, is_admin) VALUES (
     't'
 );
 
+
+
+--EXAMS
+INSERT INTO exams(examname, start_key, active, exercises, points) VALUES (
+    'Testikoe',
+    'teStiAvain',
+    'true',
+    '{"Kerro elämästä", "Mitä on kuolema", "Kuka ja mitä", "Missä on alku", "Kuka sinä olet"}',
+    '{10,5,15,23,2}'
+);
+
+INSERT INTO exams(examname, start_key, active, exercises, points) VALUES (
+    'MA12001',
+    'AvainMa1122',
+    'false',
+    '{"Laske 1+1", "Arvioi neljöjuuri 2 10 desimaalin tarkkuudella", "Laske 5/10", "Todista induktiolla x^2+a", "Oma nimesi"}',
+    '{1,50,5,34,22}'
+);
+
+INSERT INTO exams(examname, start_key, active, exercises, points) VALUES (
+    'Testi',
+    'testi',
+    'false',
+    '{"Testi"}',
+    '{1}'
+);
+
+
+INSERT INTO exams(examname, start_key, active, exercises, points) VALUES (
+    'itset',
+    'testi',
+    'true',
+    '{"takaperin", "edes päin", "ympäri ämpäri"}',
+    '{1,2,3}'
+);
