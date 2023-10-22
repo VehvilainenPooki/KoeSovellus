@@ -72,6 +72,8 @@ def profile():
     try:
         if session["username"]:
             return render_template("profile.html")
+    except KeyError:
+        return render_template("/not-logged-in.html")
     except:
         error = ("Unexpected error:", sys.exc_info()[0])
         return render_template("error.html", error=error)
@@ -100,6 +102,8 @@ def change_password():
                 return render_template("change-password.html")
             else:
                 session["notMatching"] = True
+    except KeyError:
+        return render_template("/not-logged-in.html")
     except:
         error = ("Unexpected error:", sys.exc_info()[0])
         return render_template("error.html", error=error)
@@ -120,6 +124,7 @@ def create_exam():
         if request.method == "GET":
             return render_template("exam-creation.html")
         
+
         return render_template("exam-creation.html")
     return render_template("not-admin.html")
 
@@ -127,25 +132,20 @@ def create_exam():
 @app.route("/exam", methods=["POST"])
 def exam():
     try:
-        print(1)
         if session["username"]:
-            print(2)
             examname = request.form["examname"]
             start_key = request.form["start_key"]
-            print(3)
             exam = eM.get_exam(examname)
-            print(4)
             if exam:
-                print(5)
                 if exam.start_key == start_key:
-                    print(6)
                     url = "/exam/" + examname
                     return redirect(url)
-            print(7)
             return redirect("/profile")
-    except Exception:
-        print(Exception)
-    print(8)
+    except KeyError:
+        return render_template("/not-logged-in.html")
+    except:
+        error = ("Unexpected error:", sys.exc_info()[0])
+        return render_template("error.html", error=error)
     return render_template("/not-logged-in.html")
 
 @app.route("/exam/<string:examname>", methods=["POST", "GET"])
@@ -165,6 +165,8 @@ def exam_num(examname):
                 else:
                     return render_template("exam.html", exam=examname, exercises=exam.exercises, points=exam.points)
             return redirect("/profile")
+    except KeyError:
+        return render_template("/not-logged-in.html")
     except:
         error = ("Unexpected error:", sys.exc_info()[0])
         return render_template("error.html", error=error)
