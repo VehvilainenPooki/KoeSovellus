@@ -5,7 +5,10 @@
 {% block content %}
     <h1>Kokeen luonti</h1>
     <form method="POST">
-        
+        <p>Kokeen Nimi:<br>
+        <input type="text" name="examname" required minlength="3" maxlength="30"></p>
+        <p>Kokeen aloitusavain:<br>
+        <input type="text" name="start_key" required minlength="3" maxlength="15"></p>
         <input type="submit" value="Luo koe">
     </form>
     
