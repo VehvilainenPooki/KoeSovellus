@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}Koe {{exam}} muokkaus{% endblock %}
+
+{% block content %}
+    <h1>Koe {{exam}} Esikatselu</h1>
+    {% for i in range(exercises | length) %}
+        <p>{{i+1}}.) {{exercises[i]}} | {{points[i]}}p
+        <br>
+    {% endfor %}
+    
+    <form method="POST">
+        <h3>Uusi tehtävä:</h3><br>
+        <input type="hidden" name="addRemove" value="add">
+        <textarea name= "exercise" rows="4" cols="50" required maxlength="400"></textarea>
+        <p>Tehtävästä saatavat pisteet:</p>
+        <input type="number" name="points" value="10" min="1" max="100">
+        <input type="submit" value="Lisää tehtävä">
+    </form>
+    
+    <form method="POST">
+        <h3>Poista tehtävä:</h3><br>
+        <input type="hidden" name="addRemove" value="remove">
+        <p>Poistettavan tehtävän numero:</p>
+        {%set max = (exercises | length) %}
+        <input type="number" name="index" value="1" min="1" max="{{max}}">
+        <input type="submit" value="Poista tehtävä">
+    </form>
+
+{% endblock %}
