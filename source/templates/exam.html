@@ -8,8 +8,8 @@
         {% for i in range(exercises | length) %}
             <p>{{i}}. {{exercises[i]}}<br>
             {% set name = "exercise" + (i | string) %}
-            <textarea name= "{{name}}" required></textarea>
-            <p>/{{points[i]}}<br>
+            <textarea name= "{{name}}" required maxlength="400"></textarea>
+            <p>/{{points[i]}}p<br>
         {% endfor %}
         <input type="submit" value="Palauta">
     </form>

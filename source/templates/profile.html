@@ -8,8 +8,8 @@
         <p>Olet kirjautunut nimellä {{ session.username }}</p>
         <a style="position:absolute; top:40px; right:10px;" href="/logout">Kirjaudu ulos</a>
         <form action="/exam" method="POST">
-            <input type="text" name="examname" placeholder="Kokeen nimi" required>
-            <input type="text" name="start_key" placeholder="Avain" required>
+            <input type="text" name="examname" placeholder="Kokeen nimi" required minlength="3" maxlength="20">
+            <input type="text" name="start_key" placeholder="Avain" required minlength="3" maxlength="20">
             <input type="submit" value="Aloita koe">
         </form>
         <br>
