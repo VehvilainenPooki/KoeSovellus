@@ -113,6 +113,15 @@ def logout():
 
 
 #-----------Creating Exams-----------------
+@app.route("/create-exam", methods=["GET", "POST"])
+def create_exam():
+    if session["admin"]:
+            
+        if request.method == "GET":
+            return render_template("exam-creation.html")
+        
+        return render_template("exam-creation.html")
+    return render_template("not-admin.html")
 
 #------------Doing Exams-------------------
 @app.route("/exam", methods=["POST"])
