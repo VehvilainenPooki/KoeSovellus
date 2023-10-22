@@ -11,7 +11,6 @@ CREATE TABLE exams (
     start_key TEXT,
     active BOOLEAN,
     exercises TEXT[],
-    exercise_type TEXT[],
     points INTEGER[]
 );
 
