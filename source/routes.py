@@ -58,21 +58,18 @@ def exam_num(examname):
             exam = eM.get_exam(examname)
             if exam:
                 if request.method == "POST":
+                    answers = []
                     for i in range(len(exam.exercises)):
                         exercise = "exercise" + str(i)
-                        answer = request.form[exercise]
-                        
+                        answers.append(request.form[exercise])
+                    answers = str(answers).replace("[","{").replace("]","}")
+                    eM.submit_answers(exam.examname, session["username"], answers)
                 else:
                     return render_template("exam.html", exam=examname, exercises=exam.exercises, points=exam.points)
             return redirect("/profile")
-    except IOError as errno:
-        print("I/O error(", errno,")")
-    except ValueError:
-        print("value error")
     except:
         print("Unexpected error:", sys.exc_info()[0])
         raise
-    print(5)
     return render_template("/not-logged-in.html")
 
 #------------Account Management-------------

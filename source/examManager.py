@@ -24,7 +24,7 @@ def get_exam(examname):
     return exam
 
 def submit_answers(examname, username, answers):
-    print("Adding ", username, " answers to" , examname, ".")
+    print("Adding", username, "answers to" , examname, ".")
     sql = "INSERT INTO exam_results (examname, username, answers) VALUES ( :examname, :username, :answers)"
     db.session.execute(text(sql), {"examname":examname, "username":username, "answers":answers})
     db.session.commit()
