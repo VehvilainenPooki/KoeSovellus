@@ -83,6 +83,19 @@ def remove_exercise(examname, index):
         return True
     return False
 
+def remove_exam(examname):
+    '''remove_exam removes exam from db(exams).'''
+    print("[exams] Removing exercise from", examname)
+    print(1)
+    if get_exam(examname):
+        print(2)
+        sql = "REMOVE * FROM exams WHERE examname=:examname"
+        db.session.execute(text(sql), {"examname":examname})
+        db.session.commit()
+        print(5)
+        print("exam removed successfully.")
+        return True
+    return False
 
 #---------exam_results-------------
 
