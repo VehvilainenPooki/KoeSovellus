@@ -118,7 +118,7 @@ def logout():
     return redirect("/")
 
 
-#-----------Creating Exams-----------------
+#-----------Managing Exams-----------------
 @app.route("/create-exam", methods=["GET", "POST"])
 def create_exam():
     if session["admin"]:
@@ -149,11 +149,15 @@ def edit_exam(examname):
                         exercise = request.form["exercise"]
                         points = request.form["points"]
                         eM.add_exercise(examname, exercise, points)
-                    else:
+                    elif addRemove == "remove":
                         print(4)
                         index = int(request.form["index"]) + -1
                         print(5)
                         eM.remove_exercise(examname, index)
+                    elif addRemove == "activate":
+                        eM.activate_exam(examname)
+                    else:
+                        eM.deactivate_exam(examname)
                     print(6)
                     exam = eM.get_exam(examname)
                     print(7)
@@ -168,6 +172,21 @@ def edit_exam(examname):
         return render_template("error.html", error=error)
     return render_template("/not-logged-in.html")
 
+@app.route("/remove-exam/<string:examname>", methods=["GET", "POST"])
+def remove_exam(examname):
+    try:
+        if session["username"] and session["admin"]:
+            if eM.remove_exam(examname):
+                1#TBD Add some way to communicate if removal failed.
+            return redirect("/profile")
+    except KeyError:
+        return render_template("/not-logged-in.html")
+    except:
+        error = ("Unexpected error:", sys.exc_info()[0])
+        raise
+        return render_template("error.html", error=error)
+    return render_template("/not-logged-in.html")
+
 #------------Doing Exams-------------------
 @app.route("/exam", methods=["POST"])
 def exam():
@@ -177,7 +196,7 @@ def exam():
             start_key = request.form["start_key"]
             exam = eM.get_exam(examname)
             if exam:
-                if exam.start_key == start_key:
+                if exam.start_key == start_key and exam.active:
                     url = "/exam/" + examname
                     return redirect(url)
             return redirect("/profile")
