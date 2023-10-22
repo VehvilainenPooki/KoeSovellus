@@ -68,8 +68,8 @@ def exam_num(examname):
                     return render_template("exam.html", exam=examname, exercises=exam.exercises, points=exam.points)
             return redirect("/profile")
     except:
-        print("Unexpected error:", sys.exc_info()[0])
-        raise
+        error = ("Unexpected error:", sys.exc_info()[0])
+        return render_template("error.html", error=error)
     return render_template("/not-logged-in.html")
 
 #------------Account Management-------------
@@ -123,7 +123,8 @@ def profile():
         if session["username"]:
             return render_template("profile.html")
     except:
-        1
+        error = ("Unexpected error:", sys.exc_info()[0])
+        return render_template("error.html", error=error)
     return render_template("/not-logged-in.html")
 
 
@@ -152,7 +153,8 @@ def change_password():
             else:
                 session["notMatching"] = True
     except:
-        1
+        error = ("Unexpected error:", sys.exc_info()[0])
+        return render_template("error.html", error=error)
     return render_template("/not-logged-in.html")
 
 @app.route("/logout")
