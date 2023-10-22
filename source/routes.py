@@ -71,6 +71,8 @@ def login():
 def profile():
     try:
         if session["username"]:
+            if session["admin"]:
+                return render_template("profile.html", exams=eM.get_all_names())
             return render_template("profile.html")
     except KeyError:
         return render_template("/not-logged-in.html")
@@ -120,13 +122,51 @@ def logout():
 @app.route("/create-exam", methods=["GET", "POST"])
 def create_exam():
     if session["admin"]:
-            
         if request.method == "GET":
             return render_template("exam-creation.html")
-        
-
-        return render_template("exam-creation.html")
+        else:
+            examname = request.form["examname"]
+            start_key = request.form["start_key"]
+            if eM.create_exam(examname, start_key):
+                session["exam-created"] = True
+                return redirect("/profile")
+            else:
+                return render_template("exam-creation.html", failed=True)
     return render_template("not-admin.html")
+
+@app.route("/edit-exam/<string:examname>", methods=["GET", "POST"])
+def edit_exam(examname):
+    try:
+        if session["username"] and session["admin"]:
+            exam = eM.get_exam(examname)
+            if exam:
+                if request.method == "POST":
+                    print(1)
+                    addRemove = request.form["addRemove"]
+                    print(2)
+                    if addRemove == "add":
+                        print(3)
+                        exercise = request.form["exercise"]
+                        points = request.form["points"]
+                        eM.add_exercise(examname, exercise, points)
+                    else:
+                        print(4)
+                        index = int(request.form["index"]) + -1
+                        print(5)
+                        eM.remove_exercise(examname, index)
+                    print(6)
+                    exam = eM.get_exam(examname)
+                    print(7)
+                    return render_template("exam-editing.html", exam=examname, exercises=exam.exercises, points=exam.points)
+                else:
+                    return render_template("exam-editing.html", exam=examname, exercises=exam.exercises, points=exam.points)
+            return redirect("/profile")
+    except KeyError:
+        return render_template("/not-logged-in.html")
+    except:
+        error = ("Unexpected error:", sys.exc_info()[0])
+        return render_template("error.html", error=error)
+    return render_template("/not-logged-in.html")
 
 #------------Doing Exams-------------------
 @app.route("/exam", methods=["POST"])
