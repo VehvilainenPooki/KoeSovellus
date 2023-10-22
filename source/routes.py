@@ -53,15 +53,17 @@ def exam():
 @app.route("/exam/<string:examname>", methods=["POST", "GET"])
 def exam_num(examname):
     try:
-        print(1)
         if session["username"]:
-            print(2)
             #Would be great if this query could be removed. Passing the value from exam to here, but can't figure it out.
             exam = eM.get_exam(examname)
             if exam:
-                print(3)
-                return render_template("exam.html", exam=examname, exercises=exam.exercises, points=exam.points)
-            print(4)
+                if request.method == "POST":
+                    for i in range(len(exam.exercises)):
+                        exercise = "exercise" + str(i)
+                        answer = request.form[exercise]
+                        
+                else:
+                    return render_template("exam.html", exam=examname, exercises=exam.exercises, points=exam.points)
             return redirect("/profile")
     except IOError as errno:
         print("I/O error(", errno,")")

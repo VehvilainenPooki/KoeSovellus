@@ -19,7 +19,8 @@ CREATE TABLE exam_results (
     id SERIAL PRIMARY KEY, 
     examname TEXT UNIQUE, 
     username TEXT,
-    score INTEGER[],
+    answers TEXT[],
+    scores INTEGER[],
     notes TEXT[]
 );
 
