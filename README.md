@@ -7,7 +7,10 @@ Verkkosovellus, jossa voi luoda kokeita, suorittaa kokeita ja tarkistaa kokeita.
 - Kokeen luominen
 - Kokeen muokkaaminen
 - Kokeen tekeminen
-    - ääkköset eivät toimi tällä hetkellä tehtävänannoissa.
+
+### Tunnettuja ongelmia
+- ääkköset eivät toimi tällä hetkellä kokeiden tehtävänannoissa.
+- csrf haavoittuvaisuutta ei ole huomioitu
 
 
 ## Tekemättömät toiminnot:
