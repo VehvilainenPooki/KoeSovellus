@@ -5,8 +5,9 @@
 {% block content %}
     <h1>Profiili</h1>
     {% if session.username %}
-        <p>Olet kirjautunut nimellä {{ session.username }}</p>
+        <p>Olet kirjautunut käyttäjällä {{ session.username }}</p>
         <a style="position:absolute; top:40px; right:10px;" href="/logout">Kirjaudu ulos</a>
+        <a style="position:absolute; top:60px; right:10px;" href="/change-password" >Vaihda salasana</a>
         <form action="/exam" method="POST">
             <input type="text" name="examname" placeholder="Kokeen nimi" required minlength="3" maxlength="20">
             <input type="text" name="start_key" placeholder="Avain" required minlength="3" maxlength="20">
@@ -15,15 +16,19 @@
         <br>
         <br>
         {% if session.admin%}
-            <br>
+            <hr>
+            <h2>Admin työkalut</h2>
             <br>
             <form action="/account-creation" method="GET">
                 <input type="submit" value="Tilin luonti">
             </form>
+            <br>
+            <form action="/create-exam" method="GET">
+                <input type="submit" value="Kokeen luonti">
+            </form>
+            <br>
+            
         {% endif %}
-        <form action="/change-password" method="GET">
-            <input type="submit" value="Vaihda salasana">
-        </form>
     {% endif %}
     
 
