@@ -27,7 +27,24 @@
                 <input type="submit" value="Kokeen luonti">
             </form>
             <br>
-            
+            <hr>
+            <h3>Kokeet:</h3>
+            {% for exam in exams %}
+                {{exam}}
+                <form style="display: inline;" action="/review-exam/{{exam}}" method="GET">
+                    <input type="hidden" value="{{exam}}">
+                    <input type="submit" value="Tarkastele vastauksia">
+                </form>
+                <form style="display: inline;" action="/edit-exam/{{exam}}" method="GET">
+                    <input type="hidden" value="{{exam}}">
+                    <input type="submit" value="Muokkaa">
+                </form>
+                <form style="display: inline;" action="/delete-exam/{{exam}}" method="GET">
+                    <input type="hidden" value="{{exam}}">
+                    <input type="submit" value="Poista">
+                </form>
+                <br>
+            {% endfor %}
         {% endif %}
     {% endif %}
     
