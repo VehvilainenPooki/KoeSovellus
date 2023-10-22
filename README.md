@@ -4,14 +4,13 @@ Verkkosovellus, jossa voi luoda kokeita, suorittaa kokeita ja tarkistaa kokeita.
 ## Toteutetut toiminnot:
 ### Keskeiset toiminnot
 - Opettaja ja Oppilas käyttäjien luominen Eli user ja admin käyttäjä
+- Kokeen tekeminen
 
 
-Olen jäänyt jälkeen tämän projektion kanssa, mutta toivon, että seuraavilla parilla viikolla minulla on paljon aikaa tehdä projekti loppuun
 
 ## Tekemättömät toiminnot:
 ### Keskeiset toiminnot
 - Kokeen luominen
-- Kokeen tekeminen
 - Kokeen arviointi
 - Arvioinnin lukeminen
 
