@@ -20,11 +20,23 @@
     
     <form method="POST">
         <h3>Poista tehtävä:</h3><br>
-        <input type="hidden" name="addRemove" value="remove">
         <p>Poistettavan tehtävän numero:</p>
         {%set max = (exercises | length) %}
         <input type="number" name="index" value="1" min="1" max="{{max}}">
+        <input type="hidden" name="addRemove" value="remove">
         <input type="submit" value="Poista tehtävä">
+    </form>
+    <br>
+    <br>
+    <br>
+    <p>Vaihda kokeen aktiivisuustilaa:</p>
+    <form style="display: inline;" method="POST">
+        <input type="hidden" name="addRemove" value="activate">
+        <input type="submit" value="Aktivoi koe">
+    </form>
+    <form style="display: inline;" method="POST">
+        <input type="hidden" name="addRemove" value="deactivate">
+        <input type="submit" value="Deaktivoi koe">
     </form>
 
 {% endblock %}
