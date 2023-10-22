@@ -9,9 +9,9 @@
     {% endif %}
     <form action="/login" method="POST">
         <p>Tunnus:<br>
-        <input type="text" name="username" required minlength="3" maxlength="30"></p>
+        <input type="text" name="username" required maxlength="30"></p>
         <p>Salasana:<br>
-        <input type="password" name="password" required minlength="8" maxlength="100"></p>
+        <input type="password" name="password" required maxlength="100"></p>
         <input type="submit" value="Kirjaudu">
     </form>
 {% endblock %}
