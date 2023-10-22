@@ -5,7 +5,7 @@ Verkkosovellus, jossa voi luoda kokeita, suorittaa kokeita ja tarkistaa kokeita.
 ### Keskeiset toiminnot
 - Opettaja ja Oppilas käyttäjien luominen Eli user ja admin käyttäjä
 - Kokeen tekeminen
-
+    - ääkköset eivät toimi tällä hetkellä tehtävänannoissa.
 
 
 ## Tekemättömät toiminnot:
