@@ -160,9 +160,9 @@ def edit_exam(examname):
                     print(6)
                     exam = exams.get_exam(examname)
                     print(7)
-                    return render_template("exam-editing.html", exam=examname, exercises=exam.exercises, points=exam.points)
+                    return render_template("exam-editing.html", exam=examname, exercises=exam["exercises"], points=exam["points"])
                 else:
-                    return render_template("exam-editing.html", exam=examname, exercises=exam.exercises, points=exam.points)
+                    return render_template("exam-editing.html", exam=examname, exercises=exam["exercises"], points=exam["points"])
             return redirect("/profile")
     except KeyError:
         return render_template("/not-logged-in.html")
@@ -195,7 +195,7 @@ def exam():
             start_key = request.form["start_key"]
             exam = exams.get_exam(examname)
             if exam:
-                if exam.start_key == start_key and exam.active:
+                if exam["start_key"] == start_key and exam["active"]:
                     url = "/exam/" + examname
                     return redirect(url)
             return redirect("/profile")
@@ -215,13 +215,13 @@ def exam_num(examname):
             if exam:
                 if request.method == "POST":
                     answers = []
-                    for i in range(len(exam.exercises)):
+                    for i in range(len(exam["exercises"])):
                         exercise = "exercise" + str(i)
                         answers.append(request.form[exercise])
                     answers = str(answers).replace("[","{").replace("]","}")
-                    exams.submit_answers(exam.examname, session["username"], answers)
+                    attempts.submit_answers(exam["examname"], session["username"], answers)
                 else:
-                    return render_template("exam.html", exam=examname, exercises=exam.exercises, points=exam.points)
+                    return render_template("exam.html", exam=examname, exercises=exam["exercises"], points=exam["points"])
             return redirect("/profile")
     except KeyError:
         return render_template("/not-logged-in.html")
