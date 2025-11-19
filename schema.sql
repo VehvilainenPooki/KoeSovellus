@@ -9,19 +9,20 @@ CREATE TABLE exams (
     id INTEGER PRIMARY KEY, 
     examname TEXT UNIQUE, 
     start_key TEXT,
-    active BOOLEAN,
+    active BOOLEAN
 );
 
 CREATE TABLE exercises (
     id INTEGER PRIMARY KEY,
-    exam_id INTEGER REFERENCES exams,
-
+    exam_id INTEGER REFERENCES exams
+    exercise TEXT,
+    points INTEGER
 );
 
 CREATE TABLE exam_attempts (
     id INTEGER PRIMARY KEY, 
     exam_id INTEGER REFERENCES exams, 
-    user_id INTEGER REFERENCES users,
+    user_id INTEGER REFERENCES users
 );
 
 CREATE TABLE exercise_attempts (
