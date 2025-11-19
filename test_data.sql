@@ -1,6 +1,8 @@
 
 -- This file can be used to generate users into the database for testing
 -- You can check the passwords below. There are plain text comments next to the hash.
+-- These hash values work only if you are using the sercret that is preset in the config.py
+-- (Obviously insecure so don't use the same secret if deployed somewhere online)
 
 --NORMAL USERS
 INSERT INTO users(username, password, is_admin) VALUES (
@@ -95,9 +97,6 @@ INSERT INTO users(username, password, is_admin) VALUES (
 
 
 
-
-
-
 --ADMIN USERS
 INSERT INTO users(username, password, is_admin) VALUES (
     'Dark mode',
@@ -120,35 +119,95 @@ INSERT INTO users(username, password, is_admin) VALUES (
 
 
 --EXAMS
-INSERT INTO exams(examname, start_key, active, exercises, points) VALUES (
+INSERT INTO exams(id, examname, start_key, active) VALUES (
+    0,
     'Testikoe',
     'teStiAvain',
-    1,
-    '{"Kerro elämästä", "Mitä on kuolema", "Kuka ja mitä", "Missä on alku", "Kuka sinä olet"}',
-    '{10,5,15,23,2}'
+    1
+);
+INSERT INTO exercises(exam_id, exercise, points) VALUES (
+    0,
+    "Kerro elämästä",
+    10
+);
+INSERT INTO exercises(exam_id, exercise, points) VALUES (
+    0,
+    "Mitä on kuolema",
+    5
+);
+INSERT INTO exercises(exam_id, exercise, points) VALUES (
+    0,
+    "Kuka ja mitä",
+    15
+);
+INSERT INTO exercises(exam_id, exercise, points) VALUES (
+    0,
+    "Missä on alku",
+    23
+);
+INSERT INTO exercises(exam_id, exercise, points) VALUES (
+    0,
+    "Kuka sinä olet",
+    2
 );
 
-INSERT INTO exams(examname, start_key, active, exercises, points) VALUES (
+INSERT INTO exams(id, examname, start_key, active) VALUES (
+    1
     'MA12001',
     'AvainMa1122',
-    0,
-    '{"Laske 1+1", "Arvioi neljöjuuri 2 10 desimaalin tarkkuudella", "Laske 5/10", "Todista induktiolla x^2+a", "Oma nimesi"}',
-    '{1,50,5,34,22}'
+    0
+);
+INSERT INTO exercises(exam_id, exercise, points) VALUES (
+    1,
+    "Laske 1+1",
+    1
+);
+INSERT INTO exercises(exam_id, exercise, points) VALUES (
+    1,
+    "Arvioi neljöjuuri 2 10 desimaalin tarkkuudella",
+    50
+);
+INSERT INTO exercises(exam_id, exercise, points) VALUES (
+    1,
+    "Laske 5/10",
+    5
+);
+INSERT INTO exercises(exam_id, exercise, points) VALUES (
+    1,
+    "Todista induktiolla x^2+a", "Oma nimesi",
+    34
 );
 
-INSERT INTO exams(examname, start_key, active, exercises, points) VALUES (
+INSERT INTO exams(id, examname, start_key, active) VALUES (
+    2,
     'TKT10001',
     'ekaKoeTKT',
-    0,
-    '{"Testi"}',
-    '{1}'
+    0
+);
+INSERT INTO exercises(exam_id, exercise, points) VALUES (
+    2,
+    "Testi",
+    1
 );
 
-
-INSERT INTO exams(examname, start_key, active, exercises, points) VALUES (
+INSERT INTO exams(id, examname, start_key, active) VALUES (
+    3,
     'TKT20202',
     'hankalaKala',
+    1
+);
+INSERT INTO exercises(exam_id, exercise, points) VALUES (
     1,
-    '{"takaperin", "edes päin", "ympäri ämpäri"}',
-    '{1,2,3}'
+    "takaperin",
+    1
+);
+INSERT INTO exercises(exam_id, exercise, points) VALUES (
+    1,
+    "edes päin",
+    2
+);
+INSERT INTO exercises(exam_id, exercise, points) VALUES (
+    1,
+    "ympäri ämpäri",
+    3
 );
