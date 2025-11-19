@@ -14,7 +14,7 @@ def get_exam(examname):
         return False
     print("--exam exists")
     exam = result[0]
-    return exam
+    return dict(exam)
 
 def get_all_names():
     '''get_all_names returns all examname values from db(exams) in a list'''
