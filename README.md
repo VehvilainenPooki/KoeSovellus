@@ -16,13 +16,9 @@ asennus:
 ```
 \> sqlite3 database.db < schema.sql
 ```
-- Navigoi source kansioon
-```
-\> cd .\source\
-```
 - käynnistä sovellus
 ```
-\source\> flask run
+\> flask run
 ```
 
 Sovelluksessa on automaattisesti admin käyttäjä, jonka nimi on admin ja salasana on admin.

@@ -1,0 +1,1 @@
+secret_key = "ds8970f24h7f8ffdgjh5fdh3gf65kjh2g3l4ik5gkj7hfjhg87hf68d9gh8djfh67234j" #This really should not be stored in a repo but using python-dotenv or other libraries is not allowed for this course

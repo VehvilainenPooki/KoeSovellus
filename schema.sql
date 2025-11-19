@@ -14,7 +14,7 @@ CREATE TABLE exams (
     points INTEGER[]
 );
 
-CREATE TABLE exam_results (
+CREATE TABLE exam_attempts (
     id SERIAL PRIMARY KEY, 
     examname TEXT UNIQUE, 
     username TEXT,

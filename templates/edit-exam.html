@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block title %}Koe {{exam}} muokkaus{% endblock %}
+{% block content %}
+    <h1>Koe {{exam}} Esikatselu</h1>
+    {% for i in range(exercises | length) %}
+        <p>{{i+1}}.) {{exercises[i]}} | {{points[i]}}p
+        <br>
+    {% endfor %}
+    <form method="POST">
+        <h3>Uusi tehtävä:</h3><br>
+        <input type="hidden" name="addRemove" value="add">
+        <textarea name= "exercise" rows="4" cols="50" required maxlength="400"></textarea>
+        <p>Tehtävästä saatavat pisteet:</p>
+        <input type="number" name="points" value="10" min="1" max="100">
+        <input type="submit" value="Lisää tehtävä">
+    </form>
+    <form method="POST">
+        <h3>Poista tehtävä:</h3><br>
+        <p>Poistettavan tehtävän numero:</p>
+        {%set max = (exercises | length) %}
+        <input type="number" name="index" value="1" min="1" max="{{max}}">
+        <input type="hidden" name="addRemove" value="remove">
+        <input type="submit" value="Poista tehtävä">
+    </form>
+    <br>
+    <br>
+    <br>
+    <p>Vaihda kokeen aktiivisuustilaa:</p>
+    <form style="display: inline;" method="POST">
+        <input type="hidden" name="addRemove" value="activate">
+        <input type="submit" value="Aktivoi koe">
+    </form>
+    <form style="display: inline;" method="POST">
+        <input type="hidden" name="addRemove" value="deactivate">
+        <input type="submit" value="Deaktivoi koe">
+    </form>
+{% endblock %}
