@@ -75,7 +75,7 @@ def profile():
     except KeyError:
         return render_template("/not-logged-in.html")
     except:
-        error = ("Unexpected error:", sys.exc_info()[0])
+        error = ("Unexpected error:", sys.exc_info())
         return render_template("error.html", error=error)
     return render_template("/not-logged-in.html")
 
@@ -105,7 +105,7 @@ def change_password():
     except KeyError:
         return render_template("/not-logged-in.html")
     except:
-        error = ("Unexpected error:", sys.exc_info()[0])
+        error = ("Unexpected error:", sys.exc_info())
         return render_template("error.html", error=error)
     return render_template("/not-logged-in.html")
 
@@ -167,7 +167,7 @@ def edit_exam(examname):
     except KeyError:
         return render_template("/not-logged-in.html")
     except:
-        error = ("Unexpected error:", sys.exc_info()[0])
+        error = ("Unexpected error:", sys.exc_info())
         return render_template("error.html", error=error)
     return render_template("/not-logged-in.html")
 
@@ -181,8 +181,7 @@ def remove_exam(examname):
     except KeyError:
         return render_template("/not-logged-in.html")
     except:
-        error = ("Unexpected error:", sys.exc_info()[0])
-        raise
+        error = ("Unexpected error:", sys.exc_info())
         return render_template("error.html", error=error)
     return render_template("/not-logged-in.html")
 
@@ -202,7 +201,7 @@ def exam():
     except KeyError:
         return render_template("/not-logged-in.html")
     except:
-        error = ("Unexpected error:", sys.exc_info()[0])
+        error = ("Unexpected error:", sys.exc_info())
         return render_template("error.html", error=error)
     return render_template("/not-logged-in.html")
 
@@ -226,7 +225,7 @@ def exam_num(examname):
     except KeyError:
         return render_template("/not-logged-in.html")
     except:
-        error = ("Unexpected error:", sys.exc_info()[0])
+        error = ("Unexpected error:", sys.exc_info())
         return render_template("error.html", error=error)
     return render_template("/not-logged-in.html")
 
