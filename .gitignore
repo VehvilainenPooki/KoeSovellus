@@ -3,6 +3,7 @@
 
 ### dotenv ###
 .env
+.db
 
 ### Flask ###
 instance/*
@@ -274,3 +275,4 @@ pyvenv.cfg
 pip-selfcheck.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python,dotenv,venv,flask
+database.db
