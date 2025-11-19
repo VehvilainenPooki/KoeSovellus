@@ -1,26 +1,36 @@
 CREATE TABLE users (
-    id SERIAL PRIMARY KEY, 
+    id INTEGER PRIMARY KEY, 
     username TEXT UNIQUE, 
     password TEXT,
     is_admin BOOLEAN
 );
 
 CREATE TABLE exams (
-    id SERIAL PRIMARY KEY, 
+    id INTEGER PRIMARY KEY, 
     examname TEXT UNIQUE, 
     start_key TEXT,
     active BOOLEAN,
-    exercises TEXT[],
-    points INTEGER[]
+);
+
+CREATE TABLE exercises (
+    id INTEGER PRIMARY KEY,
+    exam_id INTEGER REFERENCES exams,
+
 );
 
 CREATE TABLE exam_attempts (
-    id SERIAL PRIMARY KEY, 
-    examname TEXT UNIQUE, 
-    username TEXT,
-    answers TEXT[],
-    scores INTEGER[],
-    notes TEXT[]
+    id INTEGER PRIMARY KEY, 
+    exam_id INTEGER REFERENCES exams, 
+    user_id INTEGER REFERENCES users,
+);
+
+CREATE TABLE exercise_attempts (
+    id INTEGER PRIMARY KEY,
+    attempt_id INTEGER REFERENCES exam_attempts,
+    exercise_id INTEGER REFERENCES exercises,
+    answer TEXT,
+    scores INTEGER,
+    notes TEXT
 );
 
 INSERT INTO users(username, password, is_admin) VALUES (
