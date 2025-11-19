@@ -135,98 +135,94 @@ def create_exam():
 
 @app.route("/edit-exam/<string:examname>", methods=["GET", "POST"])
 def edit_exam(examname):
-    try:
-        if session["username"] and session["admin"]:
-            exam = exams.get_exam(examname)
-            if exam:
-                if request.method == "POST":
-                    print(1)
-                    addRemove = request.form["addRemove"]
-                    print(2)
-                    if addRemove == "add":
-                        print(3)
-                        exercise = request.form["exercise"]
-                        points = request.form["points"]
-                        exams.add_exercise(examname, exercise, points)
-                    elif addRemove == "remove":
-                        print(4)
-                        index = int(request.form["index"]) + -1
-                        print(5)
-                        exams.remove_exercise(examname, index)
-                    elif addRemove == "activate":
-                        exams.activate_exam(examname)
-                    else:
-                        exams.deactivate_exam(examname)
-                    print(6)
-                    exam = exams.get_exam(examname)
-                    print(7)
-                    return render_template("exam-editing.html", exam=examname, exercises=exam["exercises"], points=exam["points"])
-                else:
-                    return render_template("exam-editing.html", exam=examname, exercises=exam["exercises"], points=exam["points"])
-            return redirect("/profile")
-    except KeyError:
+    if not_logged_in():
         return render_template("/not-logged-in.html")
+    if not session["admin"]:
+        return render_template("/not-admin.html")
+    try:
+        exam = exams.get_exam(examname)
+        if exam:
+            if request.method == "POST":
+                print(1)
+                addRemove = request.form["addRemove"]
+                print(2)
+                if addRemove == "add":
+                    print(3)
+                    exercise = request.form["exercise"]
+                    points = request.form["points"]
+                    exams.add_exercise(examname, exercise, points)
+                elif addRemove == "remove":
+                    print(4)
+                    index = int(request.form["index"]) + -1
+                    print(5)
+                    exams.remove_exercise(examname, index)
+                elif addRemove == "activate":
+                    exams.activate_exam(examname)
+                else:
+                    exams.deactivate_exam(examname)
+                print(6)
+                exam = exams.get_exam(examname)
+                print(7)
+                return render_template("exam-editing.html", exam=examname, exercises=exam["exercises"], points=exam["points"])
+            else:
+                return render_template("exam-editing.html", exam=examname, exercises=exam["exercises"], points=exam["points"])
+        return redirect("/profile")
     except:
         error = ("Unexpected error:", sys.exc_info())
         return render_template("error.html", error=error)
-    return render_template("/not-logged-in.html")
 
 @app.route("/remove-exam/<string:examname>", methods=["GET", "POST"])
 def remove_exam(examname):
-    try:
-        if session["username"] and session["admin"]:
-            if exams.remove_exam(examname):
-                1#TBD Add some way to communicate if removal failed.
-            return redirect("/profile")
-    except KeyError:
+    if not_logged_in():
         return render_template("/not-logged-in.html")
+    if not session["admin"]:
+        return render_template("/not-admin.html")
+    try:
+        if exams.remove_exam(examname):
+            1#TBD Add some way to communicate if removal failed.
+        return redirect("/profile")
     except:
         error = ("Unexpected error:", sys.exc_info())
         return render_template("error.html", error=error)
-    return render_template("/not-logged-in.html")
 
 #------------Exam attempts-------------------
 @app.route("/exam", methods=["POST"])
 def exam():
-    try:
-        if session["username"]:
-            examname = request.form["examname"]
-            start_key = request.form["start_key"]
-            exam = exams.get_exam(examname)
-            if exam:
-                if exam["start_key"] == start_key and exam["active"]:
-                    url = "/exam/" + examname
-                    return redirect(url)
-            return redirect("/profile")
-    except KeyError:
+    if not_logged_in():
         return render_template("/not-logged-in.html")
+    try:
+        examname = request.form["examname"]
+        start_key = request.form["start_key"]
+        exam = exams.get_exam(examname)
+        if exam:
+            if exam["start_key"] == start_key and exam["active"]:
+                url = "/exam/" + examname
+                return redirect(url)
+        return redirect("/profile")
     except:
         error = ("Unexpected error:", sys.exc_info())
         return render_template("error.html", error=error)
-    return render_template("/not-logged-in.html")
 
 @app.route("/exam/<string:examname>", methods=["POST", "GET"])
 def exam_num(examname):
-    try:
-        if session["username"]:
-            #Would be great if this query could be removed. Passing the value from exam to here, but can't figure it out.
-            exam = exams.get_exam(examname)
-            if exam:
-                if request.method == "POST":
-                    answers = []
-                    for i in range(len(exam["exercises"])):
-                        exercise = "exercise" + str(i)
-                        answers.append(request.form[exercise])
-                    answers = str(answers).replace("[","{").replace("]","}")
-                    attempts.submit_answers(exam["examname"], session["username"], answers)
-                else:
-                    return render_template("exam.html", exam=examname, exercises=exam["exercises"], points=exam["points"])
-            return redirect("/profile")
-    except KeyError:
+    if not_logged_in():
         return render_template("/not-logged-in.html")
+    try:
+        #Would be great if this query could be removed. Passing the value from exam to here, but can't figure it out.
+        exam = exams.get_exam(examname)
+        if exam:
+            if request.method == "POST":
+                answers = []
+                for i in range(len(exam["exercises"])):
+                    exercise = "exercise" + str(i)
+                    answers.append(request.form[exercise])
+                answers = str(answers).replace("[","{").replace("]","}")
+                attempts.submit_answers(exam["examname"], session["username"], answers)
+            else:
+                return render_template("exam.html", exam=examname, exercises=exam["exercises"], points=exam["points"])
+        return redirect("/profile")
     except:
         error = ("Unexpected error:", sys.exc_info())
         return render_template("error.html", error=error)
-    return render_template("/not-logged-in.html")
 
 #-----------Exam Review--------------
