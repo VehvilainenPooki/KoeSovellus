@@ -3,11 +3,11 @@
 {% block content %}
     <h1>Koe {{exam}}</h1>
     <form method="POST">
-        {% for i in range(exercises | length) %}
-            <p>{{i}}.) {{exercises[i]}}<br>
-            {% set name = "exercise" + (i | string) %}
+        {% for exercise in exercises %}
+            <p>{{exercise['id']}}.) {{exercise['exercise']}}<br>
+            {% set name = "exercise" + exercise['id'] %}
             <textarea name= "{{name}}" rows="4" cols="50" required maxlength="400"></textarea>
-            <p>{{points[i]}}p<br>
+            <p>{{exercise['points']}}p<br>
         {% endfor %}
         <input type="submit" value="Palauta">
     </form>
