@@ -14,7 +14,7 @@ CREATE TABLE exams (
 
 CREATE TABLE exercises (
     id INTEGER PRIMARY KEY,
-    exam_id INTEGER REFERENCES exams
+    exam_id INTEGER REFERENCES exams,
     exercise TEXT,
     points INTEGER
 );

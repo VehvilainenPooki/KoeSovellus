@@ -127,55 +127,60 @@ INSERT INTO exams(id, examname, start_key, active) VALUES (
 );
 INSERT INTO exercises(exam_id, exercise, points) VALUES (
     0,
-    "Kerro elämästä",
+    'Kerro elämästä',
     10
 );
 INSERT INTO exercises(exam_id, exercise, points) VALUES (
     0,
-    "Mitä on kuolema",
+    'Mitä on kuolema',
     5
 );
 INSERT INTO exercises(exam_id, exercise, points) VALUES (
     0,
-    "Kuka ja mitä",
+    'Kuka ja mitä',
     15
 );
 INSERT INTO exercises(exam_id, exercise, points) VALUES (
     0,
-    "Missä on alku",
+    'Missä on alku',
     23
 );
 INSERT INTO exercises(exam_id, exercise, points) VALUES (
     0,
-    "Kuka sinä olet",
+    'Kuka sinä olet',
     2
 );
 
 INSERT INTO exams(id, examname, start_key, active) VALUES (
-    1
+    1,
     'MA12001',
     'AvainMa1122',
     0
 );
 INSERT INTO exercises(exam_id, exercise, points) VALUES (
     1,
-    "Laske 1+1",
+    'Laske 1+1',
     1
 );
 INSERT INTO exercises(exam_id, exercise, points) VALUES (
     1,
-    "Arvioi neljöjuuri 2 10 desimaalin tarkkuudella",
+    'Arvioi neljöjuuri 2 10 desimaalin tarkkuudella',
     50
 );
 INSERT INTO exercises(exam_id, exercise, points) VALUES (
     1,
-    "Laske 5/10",
+    'Laske 5/10',
     5
 );
 INSERT INTO exercises(exam_id, exercise, points) VALUES (
     1,
-    "Todista induktiolla x^2+a", "Oma nimesi",
+    'Todista induktiolla x^2+a',
     34
+);
+INSERT INTO exercises(exam_id, exercise, points) VALUES (
+    1,
+    'Oma nimesi',
+    1
 );
 
 INSERT INTO exams(id, examname, start_key, active) VALUES (
@@ -186,7 +191,7 @@ INSERT INTO exams(id, examname, start_key, active) VALUES (
 );
 INSERT INTO exercises(exam_id, exercise, points) VALUES (
     2,
-    "Testi",
+    'Testi',
     1
 );
 
@@ -198,16 +203,16 @@ INSERT INTO exams(id, examname, start_key, active) VALUES (
 );
 INSERT INTO exercises(exam_id, exercise, points) VALUES (
     1,
-    "takaperin",
+    'takaperin',
     1
 );
 INSERT INTO exercises(exam_id, exercise, points) VALUES (
     1,
-    "edes päin",
+    'edes päin',
     2
 );
 INSERT INTO exercises(exam_id, exercise, points) VALUES (
     1,
-    "ympäri ämpäri",
+    'ympäri ämpäri',
     3
 );
