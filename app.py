@@ -200,6 +200,7 @@ def exam():
                 return redirect(url)
         return redirect("/profile")
     except:
+        raise
         error = ("Unexpected error:", sys.exc_info())
         return render_template("error.html", error=error)
 
@@ -208,20 +209,17 @@ def exam_num(examname):
     if not_logged_in():
         return render_template("/not-logged-in.html")
     try:
-        #Would be great if this query could be removed. Passing the value from exam to here, but can't figure it out.
+        #Would be great if this query could be removed. Passing the value from /exam to here, but can't figure it out.
         exam = exams.get_exam(examname)
         if exam:
             if request.method == "POST":
-                answers = []
-                for i in range(len(exam["exercises"])):
-                    exercise = "exercise" + str(i)
-                    answers.append(request.form[exercise])
-                answers = str(answers).replace("[","{").replace("]","}")
-                attempts.submit_answers(exam["examname"], session["username"], answers)
+                1
+                #TODO: exercise attempt logic
             else:
-                return render_template("exam.html", exam=examname, exercises=exam["exercises"], points=exam["points"])
+                return render_template("exam.html", exam=examname, exercises=exam["exercises"])
         return redirect("/profile")
     except:
+        raise
         error = ("Unexpected error:", sys.exc_info())
         return render_template("error.html", error=error)
 

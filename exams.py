@@ -7,14 +7,29 @@ exams is an interface for exams database table.
 def get_exam(examname):
     '''get_exam gets an exam from db(exams) with examname:<name>'''
     print("[exams] get exam:", examname)
-    sql = "SELECT * FROM exams WHERE examname=:examname"
+    sql = """
+        SELECT exam.id, exam.examname, exam.start_key, exam.active, exercise.id as exercise_id, exercise.exercise, exercise.points
+        FROM exams exam
+        LEFT JOIN exercises exercise ON exam.id = exercise.exam_id
+        WHERE exam.examname = :examname
+        ORDER BY exercise.id
+    """
     result = db.query(sql, {"examname":examname})
     if not result:
         print("--exam does not exist")
         return False
     print("--exam exists")
-    exam = result[0]
-    return dict(exam)
+    exam_data = {
+        'id': result[0]['id'],
+        'examname': result[0]['examname'],
+        'start_key': result[0]['start_key'],
+        'active': result[0]['active'],
+        'exercises': []
+    }
+    for row in result:
+        if row['exercise_id'] is not None:
+            exam_data['exercises'].append({'id': row['exercise_id'], 'exercise': row['exercise'], 'points': row['points']})
+    return exam_data
 
 def get_all_names():
     '''get_all_names returns all examname values from db(exams) in a list'''
