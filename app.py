@@ -70,11 +70,12 @@ def profile():
     try:
         if session["username"]:
             if session["admin"]:
-                return render_template("profile.html", exams=exams.get_all_names())
+                return render_template("profile.html", exams=exams.get_all_exams_info())
             return render_template("profile.html")
     except KeyError:
         return render_template("/not-logged-in.html")
     except:
+        raise
         error = ("Unexpected error:", sys.exc_info())
         return render_template("error.html", error=error)
     return render_template("/not-logged-in.html")

@@ -5,7 +5,21 @@ import db
 exams is an interface for exams database table.
 '''
 def get_exam(examname):
-    '''get_exam gets an exam from db(exams) with examname:<name>'''
+    '''get_exam gets an exam from db(exams) with examname:<name>
+    
+    returns object with structure:
+    exam {
+        id: int unique
+        examname: string unique
+        start_key: string
+        active: bool
+        exercises [
+            id: int unique
+            exercise: string
+            points: int
+        ]
+    }
+    '''
     print("[exams] get exam:", examname)
     sql = """
         SELECT exam.id, exam.examname, exam.start_key, exam.active, exercise.id as exercise_id, exercise.exercise, exercise.points
@@ -31,16 +45,35 @@ def get_exam(examname):
             exam_data['exercises'].append({'id': row['exercise_id'], 'exercise': row['exercise'], 'points': row['points']})
     return exam_data
 
-def get_all_names():
-    '''get_all_names returns all examname values from db(exams) in a list'''
+def get_all_exams_info():
+    '''get_all_exams_info returns all exam objects from db(exams) in a list
+    
+    returns:
+    exams[ 
+        {
+            id: int unique
+            examname: string unique
+            start_key: string
+            active: bool
+        },,,
+    ]
+    '''
     print("[exams] getting all exams:")
-    sql = "SELECT examname FROM exams"
+    sql = "SELECT id, examname, start_key, active FROM exams"
     result = db.query(sql)
-    exams = [item[0] for item in result]
-    if not exams:
-        print("--The db(exams) has no data")
+    if not result:
+        print("--no exams exist")
         return False
-    print("--At least one exam exists")
+    print("--at least one exam exists")
+    exams = []
+    for row in result:
+        exam_data = {
+            'id': row['id'],
+            'examname': row['examname'],
+            'start_key': row['start_key'],
+            'active': row['active'],
+        }
+        exams.append(exam_data)
     return exams
 
 def create_exam(examname, start_key):
