@@ -119,11 +119,10 @@ def deactivate_exam(examname):
 def add_exercise(examname, exercise, points):
     '''add_exercise adds exercice and points to exam with examname:<examname>.'''
     print("[exams] Adding exercise to", examname)
-    if get_exam(examname):
-        sql = "UPDATE exams SET exercises = array_append(exercises, :exercise) WHERE examname=:examname"
-        db.execute(sql, {"exercise":exercise, "examname":examname})
-        sql = "UPDATE exams SET points = array_append(points, :point) WHERE examname=:examname"
-        db.execute(sql, {"point":points, "examname":examname})
+    exam = get_exam(examname)
+    if exam:
+        sql = "INSERT INTO exercises (exam_id, exercise, points) VALUES ( :exam_id, :exercise, :points)"
+        db.execute(sql, {"exam_id":exam['id'], "exercise":exercise, "points":points})
         print("Exercise added successfully.")
         return True
     return False

@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
-{% block title %}Koe {{exam}} muokkaus{% endblock %}
+{% block title %}Koe {{exam['examname']}} muokkaus{% endblock %}
 {% block content %}
-    <h1>Koe {{exam}} Esikatselu</h1>
-    {% for i in range(exercises | length) %}
-        <p>{{i+1}}.) {{exercises[i]}} | {{points[i]}}p
+    <h1>Koe {{exam['examname']}} Esikatselu</h1>
+    {% for exercise in exam['exercises'] %}
+        <p>{{loop.index}}.) {{exercise['exercise']}}    {{exercise['points']}}p. </p>
         <br>
     {% endfor %}
     <form method="POST">
@@ -17,7 +17,7 @@
     <form method="POST">
         <h3>Poista tehtävä:</h3><br>
         <p>Poistettavan tehtävän numero:</p>
-        {%set max = (exercises | length) %}
+        {%set max = (exam['exercises'] | length) %}
         <input type="number" name="index" value="1" min="1" max="{{max}}">
         <input type="hidden" name="addRemove" value="remove">
         <input type="submit" value="Poista tehtävä">

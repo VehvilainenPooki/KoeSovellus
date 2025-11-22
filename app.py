@@ -164,11 +164,12 @@ def edit_exam(examname):
                 print(6)
                 exam = exams.get_exam(examname)
                 print(7)
-                return render_template("exam-editing.html", exam=examname, exercises=exam["exercises"], points=exam["points"])
+                return render_template("edit-exam.html", exam=exam)
             else:
-                return render_template("exam-editing.html", exam=examname, exercises=exam["exercises"], points=exam["points"])
+                return render_template("edit-exam.html", exam=exam)
         return redirect("/profile")
     except:
+        raise
         error = ("Unexpected error:", sys.exc_info())
         return render_template("error.html", error=error)
 
@@ -183,6 +184,7 @@ def remove_exam(examname):
             1#TBD Add some way to communicate if removal failed.
         return redirect("/profile")
     except:
+        raise
         error = ("Unexpected error:", sys.exc_info())
         return render_template("error.html", error=error)
 
