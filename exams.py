@@ -130,13 +130,10 @@ def add_exercise(examname, exercise, points):
 def remove_exercise(examname, index):
     '''remove_exercise removes exercice and points from exam with examname:<examname> and exercise[index]:<index>.'''
     print("[exams] Removing exercise from", examname)
-    if get_exam(examname):
-        indexminus = index -1
-        indexplus = index +1
-        sql = "UPDATE exams SET exercises = array_cat(exercises[\: :indexminus], exercises[:indexplus\:]) WHERE examname=:examname"
-        db.execute(sql, {"indexminus":indexminus, "indexplus":indexplus, "examname":examname})
-        sql = "UPDATE exams SET points = array_cat(points[\: :indexminus], points[:indexplus\:]) WHERE examname=:examname"
-        db.execute(sql, {"indexminus":indexminus, "indexplus":indexplus, "examname":examname})
+    exam = get_exam(examname)
+    if exam and len(exam['exercises']) > index and - 1 < index:
+        sql = "DELETE FROM exercises WHERE id=:exercise_id"
+        db.execute(sql, {"exercise_id":exam['exercises'][index]['id']})
         print("Exercise removed successfully.")
         return True
     return False

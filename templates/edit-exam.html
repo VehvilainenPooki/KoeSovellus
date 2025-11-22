@@ -7,7 +7,7 @@
         <br>
     {% endfor %}
     <form method="POST">
-        <h3>Uusi tehtävä:</h3><br>
+        <h3>Uusi tehtävä:</h3>
         <input type="hidden" name="addRemove" value="add">
         <textarea name= "exercise" rows="4" cols="50" required maxlength="400"></textarea>
         <p>Tehtävästä saatavat pisteet:</p>
@@ -15,7 +15,7 @@
         <input type="submit" value="Lisää tehtävä">
     </form>
     <form method="POST">
-        <h3>Poista tehtävä:</h3><br>
+        <h3>Poista tehtävä:</h3>
         <p>Poistettavan tehtävän numero:</p>
         {%set max = (exam['exercises'] | length) %}
         <input type="number" name="index" value="1" min="1" max="{{max}}">
@@ -23,8 +23,13 @@
         <input type="submit" value="Poista tehtävä">
     </form>
     <br>
-    <br>
-    <br>
+    <p>Kokeen tila on 
+        {% if exam['active'] %}
+            aktiivinen ✔️
+        {% else %}
+            deaktiivinen ❌
+        {% endif %}
+    </p>
     <p>Vaihda kokeen aktiivisuustilaa:</p>
     <form style="display: inline;" method="POST">
         <input type="hidden" name="addRemove" value="activate">
