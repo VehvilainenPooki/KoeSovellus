@@ -17,19 +17,20 @@ app.secret_key = config.secret_key
 def not_logged_in():
     if "user_id" not in session:
         print("not_logged_in triggered")
-        return False
+        return True
     if "csrf_token" not in request.form:
         print("not_logged_in triggered")
-        return False
-    if request.form["csrf_token"] != session["csrf_token"]:
+        return True
+    if request.form["csrf_token"] != session.get("csrf_token"):
         print("not_logged_in triggered")
-        return False
+        return True
+    return False
 
 #-----------------Home Page---------------------
 @app.route("/")
 def home():
     if "admin" not in session:
-        session["admin"] = False
+        session.get("admin") = False
     return render_template("home-page.html")
 
 #-------------------User Management------------------------
@@ -68,8 +69,8 @@ def profile():
     if not_logged_in():
         return render_template("/not-logged-in.html")
     try:
-        if session["username"]:
-            if session["admin"]:
+        if session.get("username"):
+            if session.get("admin"):
                 return render_template("profile.html", exams=exams.get_all_exams_info())
             return render_template("profile.html")
     except KeyError:
@@ -85,7 +86,7 @@ def change_password():
     if not_logged_in():
         return render_template("/not-logged-in.html")
     try:
-        if session["username"]:
+        if session.get("username"):
             if request.method == "GET":
                 session["notMatching"] = False
                 session["incorrectPassword"] = False
@@ -121,7 +122,7 @@ def logout():
 def create_exam():
     if not_logged_in():
         return render_template("/not-logged-in.html")
-    if not session["admin"]:
+    if not session.get("admin"):
         return render_template("not-admin.html")
     if request.method == "GET":
         return render_template("create-exam.html")
@@ -138,7 +139,7 @@ def create_exam():
 def edit_exam(examname):
     if not_logged_in():
         return render_template("/not-logged-in.html")
-    if not session["admin"]:
+    if not session.get("admin"):
         return render_template("/not-admin.html")
     try:
         exam = exams.get_exam(examname)
@@ -177,7 +178,7 @@ def edit_exam(examname):
 def remove_exam(examname):
     if not_logged_in():
         return render_template("/not-logged-in.html")
-    if not session["admin"]:
+    if not session.get("admin"):
         return render_template("/not-admin.html")
     try:
         if exams.remove_exam(examname):
