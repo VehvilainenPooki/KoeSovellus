@@ -17,7 +17,7 @@ def get_user(username):
     user = result[0]
     return dict(user)
 
-def get_all_users_info():
+def get_all_users_info(filter=False):
     '''get_all_users_info returns all user objects from db(users) in a list
     
     returns:
@@ -30,8 +30,14 @@ def get_all_users_info():
     ]
     '''
     print("[users] getting all users:")
-    sql = "SELECT id, username, is_admin FROM users"
-    result = db.query(sql)
+    if filter:
+        print("Filter exists and is:", filter)
+        sql = "SELECT id, username, is_admin FROM users WHERE username LIKE ?"
+        result = db.query(sql, ["%" + filter + "%"])
+    else:
+        print("No filter, getting all")
+        sql = "SELECT id, username, is_admin FROM users"
+        result = db.query(sql)
     if not result:
         print("--no users exist")
         return False

@@ -124,17 +124,27 @@ def logout():
 
 @app.route("/toggle-admin", methods=["GET", "POST"])
 def toggle_admin():
+    print("toggle-admin")
     if not_logged_in():
         return render_template("/not-logged-in.html")
     if not session.get("admin"):
         return render_template("not-admin.html")
+    print("survived login checks")
     if request.method == "GET":
+        print("GET")
         return render_template("toggle-admin.html", users=users.get_all_users_info())
     if request.method == "POST":
+        print("POST")
         if check_csrf():
             return render_template("/not-logged-in.html")
-        argument = request.form["argument"]
-        username = request.form["toggleUsername"]
+        print("csrf")
+        argument = request.form.get("argument")
+        username = request.form.get("toggleUsername")
+        filter = request.form.get("filter")
+        print("args saved")
+        if argument == "search" and filter:
+            print("search")
+            return render_template("toggle-admin.html", users=users.get_all_users_info(filter))
         if argument and username:
             if argument == "add":
                 print("add")
@@ -142,7 +152,7 @@ def toggle_admin():
             elif argument == "remove":
                 print("remove")
                 users.remove_admin(username)
-            return render_template("toggle-admin.html", users=users.get_all_users_info())
+        return render_template("toggle-admin.html", users=users.get_all_users_info())
     return render_template("/error.html", error="WRONG ARGS, if you see this error multiple times contact IT-support")
 
 #-------------------Exam Management------------------------
