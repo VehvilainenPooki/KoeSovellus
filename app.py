@@ -15,14 +15,17 @@ app = Flask(__name__)
 app.secret_key = config.secret_key
 
 def not_logged_in():
-    if "user_id" not in session:
+    if "username" not in session:
         print("not_logged_in triggered")
         return True
+    False
+
+def check_csrf():
     if "csrf_token" not in request.form:
-        print("not_logged_in triggered")
+        print("csrf check 1 triggered")
         return True
     if request.form["csrf_token"] != session.get("csrf_token"):
-        print("not_logged_in triggered")
+        print("csrf check 2 triggered")
         return True
     return False
 
@@ -64,7 +67,7 @@ def login():
     session["incorrectLogin"] = True    
     return render_template("login.html")    
 
-@app.route("/profile", methods=["GET","POST"])
+@app.route("/profile", methods=["GET"])
 def profile():
     if not_logged_in():
         return render_template("/not-logged-in.html")
@@ -95,7 +98,9 @@ def change_password():
             oldPassword = request.form["oldPassword"]
             newPassword = request.form["newPassword"]
             newPasswordAgain = request.form["newPasswordAgain"]
-            if newPassword == newPasswordAgain:
+            if newPassword == newPasswordAgain and request.method == "POST":
+                if check_csrf():
+                    return render_template("/not-logged-in.html")
                 if users.is_correct_user_password(session["username"], oldPassword):
                     users.change_user_password(session["username"], oldPassword, newPassword)
                     session["changeSuccessful"] = True
@@ -126,7 +131,9 @@ def create_exam():
         return render_template("not-admin.html")
     if request.method == "GET":
         return render_template("create-exam.html")
-    else:
+    elif request.method == "POST":
+        if check_csrf():
+            return render_template("/not-logged-in.html")
         examname = request.form["examname"]
         start_key = request.form["start_key"]
         if exams.create_exam(examname, start_key):
@@ -145,6 +152,8 @@ def edit_exam(examname):
         exam = exams.get_exam(examname)
         if exam:
             if request.method == "POST":
+                if check_csrf():
+                    return render_template("/not-logged-in.html")
                 argument = request.form["argument"]
                 if argument == "add":
                     exercise = request.form["exercise"]
@@ -167,16 +176,21 @@ def edit_exam(examname):
         error = ("Unexpected error:", sys.exc_info())
         return render_template("error.html", error=error)
 
-@app.route("/remove-exam/<string:examname>", methods=["GET", "POST"])
+#TODO: /toggle-exam-activity might be also good to remove that feature from the edit-exam template
+
+@app.route("/remove-exam/<string:examname>", methods=["POST"])
 def remove_exam(examname):
     if not_logged_in():
         return render_template("/not-logged-in.html")
     if not session.get("admin"):
         return render_template("/not-admin.html")
     try:
-        if exams.remove_exam(examname):
-            1#TBD Add some way to communicate if removal failed.
-        return redirect("/profile")
+        if request.method == "POST":
+            if check_csrf():
+                return render_template("/not-logged-in.html")
+            if exams.remove_exam(examname):
+                1#TODO Add some way to communicate if removal failed.
+            return redirect("/profile")
     except:
         raise
         error = ("Unexpected error:", sys.exc_info())
@@ -186,6 +200,8 @@ def remove_exam(examname):
 @app.route("/exam", methods=["POST"])
 def exam():
     if not_logged_in():
+        return render_template("/not-logged-in.html")
+    if check_csrf():
         return render_template("/not-logged-in.html")
     try:
         examname = request.form["examname"]
@@ -210,6 +226,8 @@ def exam_num(examname):
         exam = exams.get_exam(examname)
         if exam:
             if request.method == "POST":
+                if check_csrf():
+                    return render_template("/not-logged-in.html")
                 1
                 #TODO: exercise attempt logic
             else:

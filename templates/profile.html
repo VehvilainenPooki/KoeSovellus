@@ -9,6 +9,7 @@
         <form action="/exam" method="POST">
             <input type="text" name="examname" placeholder="Kokeen nimi" required minlength="3" maxlength="20">
             <input type="text" name="start_key" placeholder="Avain" required minlength="3" maxlength="20">
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
             <input type="submit" value="Aloita koe">
         </form>
         <br>

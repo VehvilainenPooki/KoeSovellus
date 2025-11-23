@@ -9,6 +9,7 @@
             <textarea name= "{{name}}" rows="4" cols="50" required maxlength="400"></textarea>
             <p>{{exercise['points']}}p<br>
         {% endfor %}
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
         <input type="submit" value="Palauta">
     </form>
 {% endblock %}

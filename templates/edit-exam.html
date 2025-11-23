@@ -12,6 +12,7 @@
         <textarea name= "exercise" rows="4" cols="50" required maxlength="400"></textarea>
         <p>Tehtävästä saatavat pisteet:</p>
         <input type="number" name="points" value="10" min="1" max="100">
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
         <input type="submit" value="Lisää tehtävä">
     </form>
     <form method="POST">
@@ -20,6 +21,7 @@
         {%set max = (exam['exercises'] | length) %}
         <input type="number" name="index" value="1" min="1" max="{{max}}">
         <input type="hidden" name="argument" value="remove">
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
         <input type="submit" value="Poista tehtävä">
     </form>
     <br>
@@ -33,10 +35,12 @@
     <p>Vaihda kokeen aktiivisuustilaa:</p>
     <form style="display: inline;" method="POST">
         <input type="hidden" name="argument" value="activate">
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
         <input type="submit" value="Aktivoi koe">
     </form>
     <form style="display: inline;" method="POST">
         <input type="hidden" name="argument" value="deactivate">
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
         <input type="submit" value="Deaktivoi koe">
     </form>
 {% endblock %}
