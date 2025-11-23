@@ -145,26 +145,19 @@ def edit_exam(examname):
         exam = exams.get_exam(examname)
         if exam:
             if request.method == "POST":
-                print(1)
-                addRemove = request.form["addRemove"]
-                print(2)
-                if addRemove == "add":
-                    print(3)
+                argument = request.form["argument"]
+                if argument == "add":
                     exercise = request.form["exercise"]
                     points = request.form["points"]
                     exams.add_exercise(examname, exercise, points)
-                elif addRemove == "remove":
-                    print(4)
+                elif argument == "remove":
                     index = int(request.form["index"]) + -1
-                    print(5)
                     exams.remove_exercise(examname, index)
-                elif addRemove == "activate":
+                elif argument == "activate":
                     exams.activate_exam(examname)
                 else:
                     exams.deactivate_exam(examname)
-                print(6)
                 exam = exams.get_exam(examname)
-                print(7)
                 return render_template("edit-exam.html", exam=exam)
             else:
                 return render_template("edit-exam.html", exam=exam)
