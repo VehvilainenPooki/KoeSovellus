@@ -30,7 +30,7 @@ def not_logged_in():
 @app.route("/")
 def home():
     if "admin" not in session:
-        session.get("admin") = False
+        session["admin"] = False
     return render_template("home-page.html")
 
 #-------------------User Management------------------------
