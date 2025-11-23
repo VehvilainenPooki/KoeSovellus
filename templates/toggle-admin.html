@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}Kirjautuminen{% endblock %}
+
+{% block content %}
+    <h1>Admin-oikeuksien hallitseminen</h1>
+    <table>
+        <tr>
+            <th>Käyttäjänimi</th>
+            <th>Admin-oikeudet</th>
+        </tr>
+        {% for user in users %}
+        <tr>
+            <td>{{ user['username'] }}</td>
+            <td>
+                {% if user['is_admin'] == 1 %}
+                    ✔️
+                    <form style="display: inline;" action="/toggle-admin" method="POST">
+                        <input type="hidden" name="argument" value="remove">
+                        <input type="hidden" name="toggleUsername" value="{{ user['username'] }}">
+                        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+                        <input type="submit" value="Deaktivoi">
+                    </form>
+                {% else %}
+                    ❌
+                    <form style="display: inline;" action="/toggle-admin" method="POST">
+                        <input type="hidden" name="argument" value="add">
+                        <input type="hidden" name="toggleUsername" value="{{ user['username'] }}">
+                        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+                        <input type="submit" value="Aktivoi">
+                    </form>
+                {% endif %}
+            </td>
+        {% endfor %}
+    </table>
+{% endblock %}

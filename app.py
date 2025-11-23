@@ -122,6 +122,29 @@ def logout():
     session["admin"] = False
     return redirect("/")
 
+@app.route("/toggle-admin", methods=["GET", "POST"])
+def toggle_admin():
+    if not_logged_in():
+        return render_template("/not-logged-in.html")
+    if not session.get("admin"):
+        return render_template("not-admin.html")
+    if request.method == "GET":
+        return render_template("toggle-admin.html", users=users.get_all_users_info())
+    if request.method == "POST":
+        if check_csrf():
+            return render_template("/not-logged-in.html")
+        argument = request.form["argument"]
+        username = request.form["toggleUsername"]
+        if argument and username:
+            if argument == "add":
+                print("add")
+                users.add_admin(username)
+            elif argument == "remove":
+                print("remove")
+                users.remove_admin(username)
+            return render_template("toggle-admin.html", users=users.get_all_users_info())
+    return render_template("/error.html", error="WRONG ARGS, if you see this error multiple times contact IT-support")
+
 #-------------------Exam Management------------------------
 @app.route("/create-exam", methods=["GET", "POST"])
 def create_exam():

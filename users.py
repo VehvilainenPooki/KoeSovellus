@@ -17,6 +17,35 @@ def get_user(username):
     user = result[0]
     return dict(user)
 
+def get_all_users_info():
+    '''get_all_users_info returns all user objects from db(users) in a list
+    
+    returns:
+    exams[ 
+        {
+            id: int unique
+            username: string unique
+            is_admin: bool
+        },,,
+    ]
+    '''
+    print("[users] getting all users:")
+    sql = "SELECT id, username, is_admin FROM users"
+    result = db.query(sql)
+    if not result:
+        print("--no users exist")
+        return False
+    print("--at least one user exists")
+    users = []
+    for row in result:
+        user_data = {
+            'id': row['id'],
+            'username': row['username'],
+            'is_admin': row['is_admin'],
+        }
+        users.append(user_data)
+    return users
+
 def __is_correct_password(hash, password):
     '''is_correct_password checks are <hash> and <password> the same password.'''
     print("-Correct password?")
@@ -85,3 +114,23 @@ def change_user_password_as_admin(admin_username, username, newPassword):
     if not user:
         return False
     return __change_password(username, newPassword)
+
+def add_admin(username):
+    print("Change", username, "to ADMIN:")
+    try:
+        sql = "UPDATE users SET is_admin=:is_admin WHERE username=:username"
+        result = db.execute(sql, {"username":username, "is_admin": True})
+        print("--Success")
+        return True
+    except:
+        return False
+
+def remove_admin(username):
+    print("Change", username, "to NOT BE ADMIN:")
+    try:
+        sql = "UPDATE users SET is_admin=:is_admin WHERE username=:username"
+        result = db.execute(sql, {"username":username, "is_admin": False})
+        print("--Success")
+        return True
+    except:
+        return False
