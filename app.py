@@ -144,7 +144,7 @@ def toggle_admin():
         print("args saved")
         if argument == "search" and filter:
             print("search")
-            return render_template("toggle-admin.html", users=users.get_all_users_info(filter))
+            return render_template("toggle-admin.html", users=users.get_all_users_info(filter), filter=filter)
         if argument and username:
             if argument == "add":
                 print("add")
@@ -152,6 +152,8 @@ def toggle_admin():
             elif argument == "remove":
                 print("remove")
                 users.remove_admin(username)
+        if filter:
+            return render_template("toggle-admin.html", users=users.get_all_users_info(), filter=filter)
         return render_template("toggle-admin.html", users=users.get_all_users_info())
     return render_template("/error.html", error="WRONG ARGS, if you see this error multiple times contact IT-support")
 
