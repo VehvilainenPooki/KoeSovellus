@@ -89,9 +89,12 @@ def create_exam(examname, start_key):
 def remove_exam(examname):
     '''remove_exam removes exam from db(exams).'''
     print("[exams] Removing exam from", examname)
-    if get_exam(examname):
-        sql = "DELETE FROM exams WHERE examname=:examname"
-        db.execute(sql, {"examname":examname})
+    exam = get_exam(examname)
+    if exam:
+        sql = "DELETE FROM exercises WHERE exam_id=:exam_id"
+        db.execute(sql, {"exam_id":exam["id"]})
+        sql = "DELETE FROM exams WHERE id=:id"
+        db.execute(sql, {"id":exam["id"]})
         print("exam removed successfully.")
         return True
     return False
