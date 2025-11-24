@@ -67,17 +67,34 @@ def login():
     session["incorrectLogin"] = True    
     return render_template("login.html")    
 
-@app.route("/profile", methods=["GET"])
+@app.route("/profile", methods=["GET", "POST"])
 def profile():
     if not_logged_in():
         return render_template("/not-logged-in.html")
     try:
-        if session.get("username"):
-            if session.get("admin"):
-                return render_template("profile.html", exams=exams.get_all_exams_info())
-            return render_template("profile.html")
-    except KeyError:
-        return render_template("/not-logged-in.html")
+        if request.method == "GET":
+            print("GET")
+            if session.get("username"):
+                if session.get("admin"):
+                    return render_template("profile.html", exams=exams.get_all_exams_info())
+                return render_template("profile.html")
+        elif request.method == "POST":
+            print("POST")
+            if check_csrf():
+                return render_template("/not-logged-in.html")
+            if session.get("username"):
+                #TODO: hakuominaisuuksia tehdyille kursseille?
+                if session.get("admin"):
+                    argument = request.form.get("argument")
+                    toggleExamname = request.form.get("toggleExamname")
+                    if not argument or not toggleExamname:
+                        return render_template("profile.html", exams=exams.get_all_exams_info())
+                    if argument == "activate":
+                        exams.activate_exam(toggleExamname)
+                    elif argument == "deactivate":
+                        exams.deactivate_exam(toggleExamname)
+                    return render_template("profile.html", exams=exams.get_all_exams_info())
+                return render_template("profile.html")
     except:
         raise
         error = ("Unexpected error:", sys.exc_info())
@@ -210,8 +227,6 @@ def edit_exam(examname):
         raise
         error = ("Unexpected error:", sys.exc_info())
         return render_template("error.html", error=error)
-
-#TODO: /toggle-exam-activity might be also good to remove that feature from the edit-exam template
 
 @app.route("/remove-exam/<string:examname>", methods=["POST"])
 def remove_exam(examname):

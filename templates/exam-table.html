@@ -14,13 +14,17 @@
         <td>
             {% if exam['active'] == 1 %}
                 ✔️
-                <form style="display: inline;" action="/toggle-exam-activity/{{ exam['examname'] }}" method="POST">
+                <form style="display: inline;" action="/profile" method="POST">
+                    <input type="hidden" name="argument" value="deactivate">
+                    <input type="hidden" name="toggleExamname" value="{{ exam['examname'] }}">
                     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
                     <input type="submit" value="Deaktivoi">
                 </form>
             {% else %}
                 ❌
-                <form style="display: inline;" action="/toggle-exam-activity/{{ exam['examname'] }}" method="POST">
+                <form style="display: inline;" action="/profile" method="POST">
+                    <input type="hidden" name="argument" value="activate">
+                    <input type="hidden" name="toggleExamname" value="{{ exam['examname'] }}">
                     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
                     <input type="submit" value="Aktivoi">
                 </form>
