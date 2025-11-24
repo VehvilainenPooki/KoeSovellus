@@ -202,17 +202,17 @@ INSERT INTO exams(id, examname, start_key, active) VALUES (
     1
 );
 INSERT INTO exercises(exam_id, exercise, points) VALUES (
-    1,
+    3,
     'takaperin',
     1
 );
 INSERT INTO exercises(exam_id, exercise, points) VALUES (
-    1,
+    3,
     'edes päin',
     2
 );
 INSERT INTO exercises(exam_id, exercise, points) VALUES (
-    1,
+    3,
     'ympäri ämpäri',
     3
 );
