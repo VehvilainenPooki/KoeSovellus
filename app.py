@@ -57,8 +57,10 @@ def login():
         return render_template("login.html")
     username = request.form["username"]
     password = request.form["password"]
-    if (users.is_correct_user_password(username, password)):
+    user = users.is_correct_user_password(username, password)
+    if user:
         session["username"] = username
+        session["user_id"] = user["id"]
         session["csrf_token"] = secrets.token_hex(16)
         if users.is_user_admin(username):
             session["admin"] = True
