@@ -66,7 +66,8 @@ def is_correct_user_password(username, password):
     user = get_user(username)
     if user:
         print(user)
-        return __is_correct_password(user["password"], password)
+        if __is_correct_password(user["password"], password):
+            return user
     return False
 
 def __is_admin(user):
