@@ -274,14 +274,21 @@ def exam_num(examname):
     if not_logged_in():
         return render_template("/not-logged-in.html")
     try:
-        #Would be great if this query could be removed. Passing the value from /exam to here, but can't figure it out.
         exam = exams.get_exam(examname)
         if exam:
             if request.method == "POST":
                 if check_csrf():
                     return render_template("/not-logged-in.html")
-                1
-                #TODO: exercise attempt logic
+                exercise_responses = []
+                for exercise in exam["exercises"]:
+                    response = request.form.get(str(exercise['id']))
+                    if response:
+                        exercise_responses.append([None, exercise['id'], response])
+                if len(exercise_responses) > 0:
+                    attempts.submit_answers(exam["id"], session["user_id"], exercise_responses)
+                    return redirect("/profile")
+                else:
+                    return render_template("exam.html", exam=examname, exercises=exam["exercises"])
             else:
                 return render_template("exam.html", exam=examname, exercises=exam["exercises"])
         return redirect("/profile")

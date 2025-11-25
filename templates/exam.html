@@ -4,10 +4,12 @@
     <h1>Koe {{exam}}</h1>
     <form method="POST">
         {% for exercise in exercises %}
-            <p>{{exercise['id']}}.) {{exercise['exercise']}}<br>
-            {% set name = "exercise" + exercise['id'] %}
-            <textarea name= "{{name}}" rows="4" cols="50" required maxlength="400"></textarea>
-            <p>{{exercise['points']}}p<br>
+            <p>
+                {{loop.index}}.) {{exercise['exercise']}}
+                <br>
+                <textarea name= "{{exercise['id']}}" rows="4" cols="50" required maxlength="400"></textarea>
+                {{exercise['points']}}p.
+            </p>
         {% endfor %}
         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
         <input type="submit" value="Palauta">
