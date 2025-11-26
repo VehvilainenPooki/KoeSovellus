@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block title %}Koe {{attempt["examname"]}}{% endblock %}
+{% block content %}
+    <h1>Koe {{attempt["examname"]}}</h1>
+    {% for exercise in attempt["exercises"] %}
+        <p>
+            {{loop.index}}.) {{exercise['exercise_text']}}
+            <br>
+            <textarea name= "{{exercise['id']}}" rows="4" cols="50" readonly maxlength="400">{{exercise["answer"]}}</textarea>
+            {% if exercise['score'] %}{{exercise['score']}}{% else %}Ei arvioitu{% endif %}/{{exercise['points']}}p.
+        </p>
+    {% endfor %}
+{% endblock %}

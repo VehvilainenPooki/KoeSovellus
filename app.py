@@ -297,4 +297,15 @@ def exam_num(examname):
         error = ("Unexpected error:", sys.exc_info())
         return render_template("error.html", error=error)
 
+@app.route("/view-attempt/<string:attemptid>", methods=["GET"])
+def view_attempt(attemptid):
+    if not_logged_in():
+        return render_template("/not-logged-in.html")
+    attempt=attempts.get_full_attempt_info(attemptid)
+    if not attempt:
+        return render_template("error.html", error="Suoritusta ei löytynyt")
+    if session["user_id"] != attempt["user_id"] and attempt["is_admin"] == 0:
+        return render_template("error.html", error="Sinulla ei ole oikeutta katsella tätä suoritusta")
+    return render_template("view-attempt.html", attempt=attempt)
+
 #-----------Exam Review--------------
