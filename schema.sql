@@ -30,8 +30,8 @@ CREATE TABLE exercise_attempts (
     attempt_id INTEGER REFERENCES exam_attempts,
     exercise_id INTEGER REFERENCES exercises,
     answer TEXT,
-    scores INTEGER,
-    notes TEXT
+    score INTEGER,
+    note TEXT
 );
 
 INSERT INTO users(username, password, is_admin) VALUES (
