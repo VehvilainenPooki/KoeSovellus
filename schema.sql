@@ -22,7 +22,8 @@ CREATE TABLE exercises (
 CREATE TABLE exam_attempts (
     id INTEGER PRIMARY KEY, 
     exam_id INTEGER REFERENCES exams, 
-    user_id INTEGER REFERENCES users
+    user_id INTEGER REFERENCES users,
+    grade INTEGER CHECK(rating >= 1 AND rating <= 5)
 );
 
 CREATE TABLE exercise_attempts (
