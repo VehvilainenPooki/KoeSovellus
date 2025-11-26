@@ -25,6 +25,7 @@ def get_full_attempt_info(attempt_id):
         {
             "attempt_id": 1,
             "exam_id": 1,
+            "grade": 3,
             "examname": "Final Exam",
             "start_key": "abc123",
             "active": true,
@@ -57,6 +58,7 @@ def get_full_attempt_info(attempt_id):
         SELECT 
         exam_attempts.id,
         exam_attempts.exam_id,
+        exam_attempts.grade,
         exams.examname,
         exams.start_key,
         exams.active,
@@ -83,6 +85,7 @@ def get_full_attempt_info(attempt_id):
     attempt_data = {
         'attempt_id': result[0]['id'],
         'exam_id': result[0]['exam_id'],
+        'grade': result[0]['grade'],
         'examname': result[0]['examname'],
         'start_key': result[0]['start_key'],
         'active': result[0]['active'],
