@@ -1,0 +1,10 @@
+<form method="POST" action="{{ url_for(request.endpoint) }}">
+    {% if filter %}
+        <input type="text" name="filter" value="{{ filter }}" />
+    {% else %}
+        <input type="text" name="filter" />
+    {% endif %}
+    <input type="hidden" name="argument" value="search">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    <input type="submit" value="Hae">
+</form>

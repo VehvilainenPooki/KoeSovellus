@@ -4,16 +4,7 @@
 
 {% block content %}
     <h1>Admin-oikeuksien hallitseminen</h1>
-    <form method="POST" action="/toggle-admin">
-        {% if filter %}
-            <input type="text" name="filter" value="{{ filter }}" />
-        {% else %}
-            <input type="text" name="filter" />
-        {% endif %}
-        <input type="hidden" name="argument" value="search">
-        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-        <input type="submit" value="Hae">
-    </form>
+    {% include "search-bar.html" with context %}
     <table>
         <tr>
             <th>Käyttäjänimi</th>
