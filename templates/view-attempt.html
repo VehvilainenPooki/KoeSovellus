@@ -10,4 +10,5 @@
             {% if exercise['score'] %}{{exercise['score']}}{% else %}Ei arvioitu{% endif %}/{{exercise['points']}}p.
         </p>
     {% endfor %}
+    <h3>{% if attempt["grade"]%}Suorituksen arvosana: {{attempt["grade"]}}{% else %}Suoritusta ei ole vielä arvioitu loppuun{% endif %}</h3>
 {% endblock %}
