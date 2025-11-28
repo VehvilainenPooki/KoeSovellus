@@ -118,6 +118,7 @@ def get_user_attempts(user_id, filter=None):
         exam_id,
         examname,
         user_id,
+        username,
         grade
     ]
     '''
@@ -128,9 +129,11 @@ def get_user_attempts(user_id, filter=None):
         ea.user_id,
         ea.exam_id,
         e.examname,
-        ea.grade
+        ea.grade,
+        u.username
         FROM exam_attempts ea
         JOIN exams e ON e.id = ea.exam_id
+        JOIN users u ON u.id = ea.user_id
         WHERE
         ea.user_id = :user_id AND
         (:filter IS NULL OR e.examname LIKE '%' || :filter || '%')
@@ -146,9 +149,60 @@ def get_user_attempts(user_id, filter=None):
             'exam_id': row['exam_id'],
             'user_id': row['user_id'],
             'examname': row['examname'],
+            'username': row['username'],
             'grade': row['grade']
         }
         attempt_data.append(entry)
     print(attempt_data)
     print("--Successfully queried user attempts")
     return attempt_data
+
+def get_exam_attempts(exam_id, filter=None):
+    '''
+    get_user_attempts returns list of all attempts with user_id
+    
+    returns:
+    attempts [
+        id,
+        exam_id,
+        examname,
+        user_id,
+        username,
+        grade
+    ]
+    '''
+    print("[attempts] getting attempts for exam_id: ", exam_id)
+    sql = '''
+        SELECT
+        ea.id,
+        ea.user_id,
+        ea.exam_id,
+        e.examname,
+        ea.grade,
+        u.username
+        FROM exam_attempts ea
+        JOIN exams e ON e.id = ea.exam_id
+        JOIN users u ON u.id = ea.user_id
+        WHERE
+        ea.exam_id = :exam_id AND
+        (:filter IS NULL OR u.username LIKE '%' || :filter || '%')
+    '''
+    result = db.query(sql, {"exam_id":exam_id, "filter":filter})
+    if not result:
+        print("--No attempts for exam")
+        return False
+    attempt_data = []
+    for row in result:
+        entry = {
+            'id': row['id'],
+            'exam_id': row['exam_id'],
+            'user_id': row['user_id'],
+            'examname': row['examname'],
+            'username': row['username'],
+            'grade': row['grade']
+        }
+        attempt_data.append(entry)
+    print(attempt_data)
+    print("--Successfully queried user attempts")
+    return attempt_data
+
