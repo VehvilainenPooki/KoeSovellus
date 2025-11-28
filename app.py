@@ -78,25 +78,26 @@ def profile():
             print("GET")
             if session.get("username"):
                 if session.get("admin"):
-                    return render_template("profile.html", exams=exams.get_all_exams_info())
-                return render_template("profile.html")
+                    return render_template("profile.html", exams=exams.get_all_exams_info(), attempts=attempts.get_user_attempts(session['user_id']))
+                return render_template("profile.html", attempts=attempts.get_user_attempts(session['user_id']))
         elif request.method == "POST":
             print("POST")
             if check_csrf():
                 return render_template("/not-logged-in.html")
             if session.get("username"):
-                #TODO: hakuominaisuuksia tehdyille kursseille?
+                filter = request.form.get("filter")
+                if not filter:
+                    filter = None
                 if session.get("admin"):
                     argument = request.form.get("argument")
                     toggleExamname = request.form.get("toggleExamname")
-                    if not argument or not toggleExamname:
-                        return render_template("profile.html", exams=exams.get_all_exams_info())
-                    if argument == "activate":
-                        exams.activate_exam(toggleExamname)
-                    elif argument == "deactivate":
-                        exams.deactivate_exam(toggleExamname)
-                    return render_template("profile.html", exams=exams.get_all_exams_info())
-                return render_template("profile.html")
+                    if argument and toggleExamname:
+                        if argument == "activate":
+                            exams.activate_exam(toggleExamname)
+                        elif argument == "deactivate":
+                            exams.deactivate_exam(toggleExamname)
+                    return render_template("profile.html", exams=exams.get_all_exams_info(filter=filter), attempts=attempts.get_user_attempts(session['user_id'], filter=filter), filter=filter)
+                return render_template("profile.html", attempts=attempts.get_user_attempts(session['user_id'], filter=filter), filter=filter)
     except:
         raise
         error = ("Unexpected error:", sys.exc_info())

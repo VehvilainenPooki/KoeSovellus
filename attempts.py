@@ -107,3 +107,48 @@ def get_full_attempt_info(attempt_id):
             attempt_data['exercises'].append(exercise_data)
     print("attempt fetched successfully.")
     return attempt_data
+
+def get_user_attempts(user_id, filter=None):
+    '''
+    get_user_attempts returns list of all attempts with user_id
+    
+    returns:
+    attempts [
+        id,
+        exam_id,
+        examname,
+        user_id,
+        grade
+    ]
+    '''
+    print("[attempts] getting attempts for user_id: ", user_id)
+    sql = '''
+        SELECT
+        ea.id,
+        ea.user_id,
+        ea.exam_id,
+        e.examname,
+        ea.grade
+        FROM exam_attempts ea
+        JOIN exams e ON e.id = ea.exam_id
+        WHERE
+        ea.user_id = :user_id AND
+        (:filter IS NULL OR e.examname LIKE '%' || :filter || '%')
+    '''
+    result = db.query(sql, {"user_id":user_id, "filter":filter})
+    if not result:
+        print("--No attempts for user")
+        return False
+    attempt_data = []
+    for row in result:
+        entry = {
+            'id': row['id'],
+            'exam_id': row['exam_id'],
+            'user_id': row['user_id'],
+            'examname': row['examname'],
+            'grade': row['grade']
+        }
+        attempt_data.append(entry)
+    print(attempt_data)
+    print("--Successfully queried user attempts")
+    return attempt_data

@@ -12,7 +12,7 @@
             <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
             <input type="submit" value="Aloita koe">
         </form>
-<br>
+        <br>
         <br>
         <h2>Suoritukset:</h2>
         {% include "search-bar.html" with context %}
@@ -22,15 +22,15 @@
         {% if session.admin %}
             <hr>
             <h2>Admin työkalut</h2>
-                        <form action="/toggle-admin" method="GET">
+            <form action="/toggle-admin" method="GET">
                 <input type="submit" value="Hallitse tilejä">
             </form>
             <br>
-                        <br>
-                        <h3>Kokeet:</h3>
+            <br>
+            <h3>Kokeet:</h3>
             {% include "search-bar.html" with context %}
             {% include "exam-table.html" with context %}
-<form action="/create-exam" method="GET">
+            <form action="/create-exam" method="GET">
                 <input type="submit" value="Luo koe">
             </form>
         {% endif %}
