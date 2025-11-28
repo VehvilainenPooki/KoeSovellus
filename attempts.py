@@ -206,3 +206,14 @@ def get_exam_attempts(exam_id, filter=None):
     print("--Successfully queried user attempts")
     return attempt_data
 
+def review_attempt(attempt_id, review_data, grade):
+    '''review_attempt updates existing exam attempt with new grade, exercise scores, and notes'''
+    print("[exam_attempts] Updating attempt with id", attempt_id)
+    if grade:
+        sql = "UPDATE exam_attempts SET grade = :grade WHERE id = :attempt_id"
+        db.execute(sql, {"grade": grade, "attempt_id": attempt_id})
+    if review_data:
+        sql = "UPDATE exercise_attempts SET score = ?, note = ? WHERE attempt_id = ? AND exercise_id = ?"
+        db.executemany(sql, review_data)
+    print("Attempt reviewed and updated successfully.")
+    return True
