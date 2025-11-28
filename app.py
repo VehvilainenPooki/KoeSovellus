@@ -76,13 +76,11 @@ def profile():
         return render_template("not-logged-in.html")
     try:
         if request.method == "GET":
-            print("GET")
             if session.get("username"):
                 if session.get("admin"):
                     return render_template("profile.html", exams=exams.get_all_exams_info(), attempts=attempts.get_user_attempts(session['user_id']))
                 return render_template("profile.html", attempts=attempts.get_user_attempts(session['user_id']))
         elif request.method == "POST":
-            print("POST")
             if check_csrf():
                 return render_template("not-logged-in.html")
             if session.get("username"):
@@ -145,33 +143,24 @@ def logout():
 
 @app.route("/toggle-admin", methods=["GET", "POST"])
 def toggle_admin():
-    print("toggle-admin")
     if not_logged_in():
         return render_template("not-logged-in.html")
     if not session.get("admin"):
         return render_template("not-admin.html")
-    print("survived login checks")
     if request.method == "GET":
-        print("GET")
         return render_template("toggle-admin.html", users=users.get_all_users_info())
     if request.method == "POST":
-        print("POST")
         if check_csrf():
             return render_template("not-logged-in.html")
-        print("csrf")
         argument = request.form.get("argument")
         username = request.form.get("toggleUsername")
         filter = request.form.get("filter")
-        print("args saved")
         if argument == "search" and filter:
-            print("search")
             return render_template("toggle-admin.html", users=users.get_all_users_info(filter), filter=filter)
         if argument and username:
             if argument == "add":
-                print("add")
                 users.add_admin(username)
             elif argument == "remove":
-                print("remove")
                 users.remove_admin(username)
         if filter:
             return render_template("toggle-admin.html", users=users.get_all_users_info(), filter=filter)
@@ -347,7 +336,6 @@ def review_attempt(attemptid):
                 notes = None
             review_data.append([score, notes, attemptid, exercise_id])
         grade = request.form.get("grade")
-        print(review_data, "grade", grade)
         if len(review_data) > 0 or grade:
             attempts.review_attempt(attempt_id=attemptid, review_data=review_data, grade=grade)
             return redirect(f"/list-attempts/{attempt['exam_id']}")

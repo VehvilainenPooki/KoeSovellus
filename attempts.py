@@ -153,7 +153,6 @@ def get_user_attempts(user_id, filter=None):
             'grade': row['grade']
         }
         attempt_data.append(entry)
-    print(attempt_data)
     print("--Successfully queried user attempts")
     return attempt_data
 
@@ -202,7 +201,6 @@ def get_exam_attempts(exam_id, filter=None):
             'grade': row['grade']
         }
         attempt_data.append(entry)
-    print(attempt_data)
     print("--Successfully queried user attempts")
     return attempt_data
 

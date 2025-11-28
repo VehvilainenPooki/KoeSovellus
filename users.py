@@ -54,7 +54,7 @@ def get_all_users_info(filter=False):
 
 def __is_correct_password(hash, password):
     '''is_correct_password checks are <hash> and <password> the same password.'''
-    print("-Correct password?")
+    print("[Users] Correct password?")
     if check_password_hash(hash, password):
         print("--True")
         return True
@@ -65,18 +65,17 @@ def is_correct_user_password(username, password):
     '''is_correct_user_password Checks'''
     user = get_user(username)
     if user:
-        print(user)
         if __is_correct_password(user["password"], password):
             return user
     return False
 
 def __is_admin(user):
     '''__is_admin checks if user:<user> is admin.'''
-    print("Is user admin:")
+    print("[Users] Is user admin:")
     if user["is_admin"]:
-        print("True", user)
+        print("--True")
         return True
-    print("False")
+    print("--False")
     return False
 
 def is_user_admin(username):
@@ -87,7 +86,7 @@ def is_user_admin(username):
     return False
 
 def create_account(username, password, is_admin):
-    print("Creating account:")
+    print("[Users] Creating account:")
     if not get_user(username):
         print("Adding user to (users) database.")
         hash_value = generate_password_hash(password)
@@ -99,7 +98,7 @@ def create_account(username, password, is_admin):
     return False
 
 def __change_password(username, password):
-    print("Changing password:")
+    print("[Users] Changing password:")
     hash_value = generate_password_hash(password)
     sql = "UPDATE users SET password=:password WHERE username=:username"
     result = db.execute(sql, {"username":username, "password":hash_value})
@@ -123,7 +122,7 @@ def change_user_password_as_admin(admin_username, username, newPassword):
     return __change_password(username, newPassword)
 
 def add_admin(username):
-    print("Change", username, "to ADMIN:")
+    print("[Users] Change", username, "to ADMIN:")
     try:
         sql = "UPDATE users SET is_admin=:is_admin WHERE username=:username"
         result = db.execute(sql, {"username":username, "is_admin": True})
@@ -133,7 +132,7 @@ def add_admin(username):
         return False
 
 def remove_admin(username):
-    print("Change", username, "to NOT BE ADMIN:")
+    print("[Users] Change", username, "to NOT BE ADMIN:")
     try:
         sql = "UPDATE users SET is_admin=:is_admin WHERE username=:username"
         result = db.execute(sql, {"username":username, "is_admin": False})
