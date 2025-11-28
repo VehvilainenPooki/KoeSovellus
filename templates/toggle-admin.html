@@ -4,6 +4,7 @@
 
 {% block content %}
     <h1>Admin-oikeuksien hallitseminen</h1>
+    {% set search_action = url_for(request.endpoint) %}
     {% include "search-bar.html" with context %}
     <table>
         <tr>

@@ -15,6 +15,7 @@
         <br>
         <br>
         <h2>Suoritukset:</h2>
+        {% set search_action = url_for(request.endpoint) %}
         {% include "search-bar.html" with context %}
         {% include "user-attempt-table.html" with context %}
         <br>
@@ -28,6 +29,7 @@
             <br>
             <br>
             <h3>Kokeet:</h3>
+            {% set search_action = url_for(request.endpoint) %}
             {% include "search-bar.html" with context %}
             {% include "exam-table.html" with context %}
             <form action="/create-exam" method="GET">
