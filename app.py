@@ -35,6 +35,7 @@ def home():
     if "admin" not in session:
         session["admin"] = False
     return render_template("home-page.html")
+    #TODO: analyysiä tänne
 
 #-------------------User Management------------------------
 @app.route("/create-account", methods=["GET","POST"])
@@ -72,7 +73,7 @@ def login():
 @app.route("/profile", methods=["GET", "POST"])
 def profile():
     if not_logged_in():
-        return render_template("/not-logged-in.html")
+        return render_template("not-logged-in.html")
     try:
         if request.method == "GET":
             print("GET")
@@ -83,7 +84,7 @@ def profile():
         elif request.method == "POST":
             print("POST")
             if check_csrf():
-                return render_template("/not-logged-in.html")
+                return render_template("not-logged-in.html")
             if session.get("username"):
                 filter = request.form.get("filter")
                 if not filter:
@@ -102,12 +103,12 @@ def profile():
         raise
         error = ("Unexpected error:", sys.exc_info())
         return render_template("error.html", error=error)
-    return render_template("/not-logged-in.html")
+    return render_template("not-logged-in.html")
 
 @app.route("/change-password", methods=["GET", "POST"])
 def change_password():
     if not_logged_in():
-        return render_template("/not-logged-in.html")
+        return render_template("not-logged-in.html")
     try:
         if session.get("username"):
             if request.method == "GET":
@@ -120,7 +121,7 @@ def change_password():
             newPasswordAgain = request.form["newPasswordAgain"]
             if newPassword == newPasswordAgain and request.method == "POST":
                 if check_csrf():
-                    return render_template("/not-logged-in.html")
+                    return render_template("not-logged-in.html")
                 if users.is_correct_user_password(session["username"], oldPassword):
                     users.change_user_password(session["username"], oldPassword, newPassword)
                     session["changeSuccessful"] = True
@@ -130,11 +131,11 @@ def change_password():
             else:
                 session["notMatching"] = True
     except KeyError:
-        return render_template("/not-logged-in.html")
+        return render_template("not-logged-in.html")
     except:
         error = ("Unexpected error:", sys.exc_info())
         return render_template("error.html", error=error)
-    return render_template("/not-logged-in.html")
+    return render_template("not-logged-in.html")
 
 @app.route("/logout")
 def logout():
@@ -146,7 +147,7 @@ def logout():
 def toggle_admin():
     print("toggle-admin")
     if not_logged_in():
-        return render_template("/not-logged-in.html")
+        return render_template("not-logged-in.html")
     if not session.get("admin"):
         return render_template("not-admin.html")
     print("survived login checks")
@@ -156,7 +157,7 @@ def toggle_admin():
     if request.method == "POST":
         print("POST")
         if check_csrf():
-            return render_template("/not-logged-in.html")
+            return render_template("not-logged-in.html")
         print("csrf")
         argument = request.form.get("argument")
         username = request.form.get("toggleUsername")
@@ -181,14 +182,14 @@ def toggle_admin():
 @app.route("/create-exam", methods=["GET", "POST"])
 def create_exam():
     if not_logged_in():
-        return render_template("/not-logged-in.html")
+        return render_template("not-logged-in.html")
     if not session.get("admin"):
         return render_template("not-admin.html")
     if request.method == "GET":
         return render_template("create-exam.html")
     elif request.method == "POST":
         if check_csrf():
-            return render_template("/not-logged-in.html")
+            return render_template("not-logged-in.html")
         examname = request.form["examname"]
         start_key = request.form["start_key"]
         if exams.create_exam(examname, start_key):
@@ -200,7 +201,7 @@ def create_exam():
 @app.route("/edit-exam/<string:examname>", methods=["GET", "POST"])
 def edit_exam(examname):
     if not_logged_in():
-        return render_template("/not-logged-in.html")
+        return render_template("not-logged-in.html")
     if not session.get("admin"):
         return render_template("/not-admin.html")
     try:
@@ -208,7 +209,7 @@ def edit_exam(examname):
         if exam:
             if request.method == "POST":
                 if check_csrf():
-                    return render_template("/not-logged-in.html")
+                    return render_template("not-logged-in.html")
                 argument = request.form["argument"]
                 if argument == "add":
                     exercise = request.form["exercise"]
@@ -234,13 +235,13 @@ def edit_exam(examname):
 @app.route("/remove-exam/<string:examname>", methods=["POST"])
 def remove_exam(examname):
     if not_logged_in():
-        return render_template("/not-logged-in.html")
+        return render_template("not-logged-in.html")
     if not session.get("admin"):
         return render_template("/not-admin.html")
     try:
         if request.method == "POST":
             if check_csrf():
-                return render_template("/not-logged-in.html")
+                return render_template("not-logged-in.html")
             if exams.remove_exam(examname):
                 1#TODO Add some way to communicate if removal failed.
             return redirect("/profile")
@@ -253,9 +254,9 @@ def remove_exam(examname):
 @app.route("/exam", methods=["POST"])
 def exam():
     if not_logged_in():
-        return render_template("/not-logged-in.html")
+        return render_template("not-logged-in.html")
     if check_csrf():
-        return render_template("/not-logged-in.html")
+        return render_template("not-logged-in.html")
     try:
         examname = request.form["examname"]
         start_key = request.form["start_key"]
@@ -273,13 +274,13 @@ def exam():
 @app.route("/exam/<string:examname>", methods=["POST", "GET"])
 def exam_num(examname):
     if not_logged_in():
-        return render_template("/not-logged-in.html")
+        return render_template("not-logged-in.html")
     try:
         exam = exams.get_exam(examname)
         if exam:
             if request.method == "POST":
                 if check_csrf():
-                    return render_template("/not-logged-in.html")
+                    return render_template("not-logged-in.html")
                 exercise_responses = []
                 for exercise in exam["exercises"]:
                     response = request.form.get(str(exercise['id']))
@@ -301,7 +302,7 @@ def exam_num(examname):
 @app.route("/view-attempt/<string:attemptid>", methods=["GET"])
 def view_attempt(attemptid):
     if not_logged_in():
-        return render_template("/not-logged-in.html")
+        return render_template("not-logged-in.html")
     attempt=attempts.get_full_attempt_info(attemptid)
     if not attempt:
         return render_template("error.html", error="Suoritusta ei löytynyt")
