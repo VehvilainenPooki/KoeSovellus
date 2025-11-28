@@ -45,7 +45,7 @@ def get_exam(examname):
             exam_data['exercises'].append({'id': row['exercise_id'], 'exercise': row['exercise'], 'points': row['points']})
     return exam_data
 
-def get_all_exams_info():
+def get_all_exams_info(filter=None):
     '''get_all_exams_info returns all exam objects from db(exams) in a list
     
     returns:
@@ -59,8 +59,8 @@ def get_all_exams_info():
     ]
     '''
     print("[exams] getting all exams:")
-    sql = "SELECT id, examname, start_key, active FROM exams"
-    result = db.query(sql)
+    sql = "SELECT id, examname, start_key, active FROM exams WHERE (:filter IS NULL OR examname LIKE '%' || :filter || '%')"
+    result = db.query(sql, {"filter":filter})
     if not result:
         print("--no exams exist")
         return False
