@@ -4,4 +4,21 @@
 
 {% block content %}
     <h1>Etusivu</h1>
+    <table>
+        <tr>
+            <th>Kokeen nimi</th>
+            <th>arvosteltujen kokeiden keskiarvo</th>
+            <th>suoritukset</th>
+            <th>arvostellut suoritukset</th>
+        </tr>
+        {% for stat in statistics %}
+        <tr>
+            <td>{{ stat.examname }}</td>
+            <td>{{ stat.average_grade or 'N/A' }}</td>
+            <td>{{ stat.attempts }}</td>
+            <td>{{ stat.attempts_graded }}</td>
+        </tr>
+        {% endfor %}
+    </table>
 {% endblock %}
+
