@@ -314,10 +314,14 @@ def view_attempt(attemptid):
 def list_attempts(examid):
     if not_logged_in():
         return render_template("not-logged-in.html")
-    if session.get("admin"):
-        filter = request.form.get("filter")
-        if not filter:
-            filter = None
-        return render_template("list-attempts.html", attempts=attempts.get_exam_attempts(exam_id=examid, filter=filter), filter=filter)
+    if not session.get("admin"):
+        return render_template("not-admin.html")
+    if request.method == "POST":
+        if check_csrf():
+            return render_template("not-logged-in.html")
+    filter = request.form.get("filter")
+    if not filter:
+        filter = None
+    return render_template("list-attempts.html", attempts=attempts.get_exam_attempts(exam_id=examid, filter=filter), filter=filter)
 
 #-----------Exam Review--------------
