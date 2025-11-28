@@ -217,3 +217,45 @@ def review_attempt(attempt_id, review_data, grade):
         db.executemany(sql, review_data)
     print("Attempt reviewed and updated successfully.")
     return True
+
+def get_exam_statistics():
+    '''
+    get_exam_statistics calculates some basic statistics for all exams
+    Returns:
+    exams [
+        {
+            examname: str,
+            average_grade: float or None,
+            attempts: int,
+            attempts_graded: int
+        }, 
+        ...
+    ]
+    '''
+    print("[attempts] getting exam statistics")
+    sql = '''
+        SELECT 
+            e.examname,
+            AVG(ea.grade) as average_grade,
+            COUNT(ea.id) as total_attempts,
+            COUNT(CASE WHEN ea.grade IS NOT NULL THEN 1 END) as graded_attempts
+        FROM exams e
+        LEFT JOIN exam_attempts ea ON e.id = ea.exam_id
+        GROUP BY e.id, e.examname
+        ORDER BY e.examname
+    '''
+    result = db.query(sql)
+    if not result:
+        print("--No exam statistics found")
+        return []
+    exam_data = []
+    for row in result:
+        entry = {
+            'examname': row['examname'],
+            'average_grade': row['average_grade'],
+            'attempts': row['total_attempts'],
+            'attempts_graded': row['graded_attempts']
+        }
+        exam_data.append(entry)
+    print("--Successfully collected exam statistics")
+    return exam_data

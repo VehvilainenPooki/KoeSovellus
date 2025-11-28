@@ -34,7 +34,7 @@ def check_csrf():
 def home():
     if "admin" not in session:
         session["admin"] = False
-    return render_template("home-page.html")
+    return render_template("home-page.html", statistics=attempts.get_exam_statistics())
     #TODO: analyysiä tänne
 
 #-------------------User Management------------------------
@@ -340,13 +340,17 @@ def review_attempt(attemptid):
         for exercise in attempt["exercises"]:
             exercise_id = exercise['exercise_id']
             score = request.form.get(f"{exercise_id}_score")
+            if score == "None":
+                score = None
             notes = request.form.get(f"{exercise_id}_notes")
+            if notes == "None":
+                notes = None
             review_data.append([score, notes, attemptid, exercise_id])
         grade = request.form.get("grade")
         print(review_data, "grade", grade)
         if len(review_data) > 0 or grade:
             attempts.review_attempt(attempt_id=attemptid, review_data=review_data, grade=grade)
-            return redirect(f"/review-attempt/{attemptid}")
+            return redirect(f"/list-attempts/{attempt['exam_id']}")
     if not attempt:
         return render_template("error.html", error="Suoritusta ei löytynyt")
     if session["user_id"] != attempt["user_id"] and not session["admin"]:
