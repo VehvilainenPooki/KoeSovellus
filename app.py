@@ -309,4 +309,14 @@ def view_attempt(attemptid):
         return render_template("error.html", error="Sinulla ei ole oikeutta katsella tätä suoritusta")
     return render_template("view-attempt.html", attempt=attempt)
 
+@app.route("/list-attempts/<string:examid>", methods=["GET", "POST"])
+def list_attempts(examid):
+    if not_logged_in():
+        return render_template("not-logged-in.html")
+    if session.get("admin"):
+        filter = request.form.get("filter")
+        if not filter:
+            filter = None
+        return render_template("list-attempts.html", attempts=attempts.get_exam_attempts(exam_id=examid, filter=filter), filter=filter)
+
 #-----------Exam Review--------------

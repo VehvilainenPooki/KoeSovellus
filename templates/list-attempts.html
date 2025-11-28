@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}Kirjautuminen{% endblock %}
+
+{% block content %}
+    <h1>{{attempts['examname']}} suoritukset</h1>
+    {% set search_action = url_for('list_attempts', examid=request.view_args['examid']) %}
+    {% include "search-bar.html" with context %}
+    {% if attempts %}
+        {% include "exam-attempts-table.html" with context %}
+    {% else %}
+        {% if filter %}
+            <h2>Tällä haulla ei löytynyt yhtään suoritusta</h2>
+        {% else %}
+            <h2>Kokeella ei ole vielä suorituksia</h2>
+        {% endif %}
+    {% endif %}
+{% endblock %}
