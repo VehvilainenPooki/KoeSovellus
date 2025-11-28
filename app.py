@@ -325,3 +325,30 @@ def list_attempts(examid):
     return render_template("list-attempts.html", attempts=attempts.get_exam_attempts(exam_id=examid, filter=filter), filter=filter)
 
 #-----------Exam Review--------------
+@app.route("/review-attempt/<string:attemptid>", methods=["GET","POST"])
+def review_attempt(attemptid):
+    if not_logged_in():
+        return render_template("not-logged-in.html")
+    if not session.get("admin"):
+        return render_template("not-admin.html")
+    attempt=attempts.get_full_attempt_info(attemptid)
+    if request.method == "POST":
+        if check_csrf():
+            return render_template("not-logged-in.html")
+
+        review_data = []
+        for exercise in attempt["exercises"]:
+            exercise_id = exercise['exercise_id']
+            score = request.form.get(f"{exercise_id}_score")
+            notes = request.form.get(f"{exercise_id}_notes")
+            review_data.append([score, notes, attemptid, exercise_id])
+        grade = request.form.get("grade")
+        print(review_data, "grade", grade)
+        if len(review_data) > 0 or grade:
+            attempts.review_attempt(attempt_id=attemptid, review_data=review_data, grade=grade)
+            return redirect(f"/review-attempt/{attemptid}")
+    if not attempt:
+        return render_template("error.html", error="Suoritusta ei löytynyt")
+    if session["user_id"] != attempt["user_id"] and not session["admin"]:
+        return render_template("error.html", error="Sinulla ei ole oikeutta katsella tätä suoritusta")
+    return render_template("review-attempt.html", attempt=attempt)

@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block title %}Koe {{attempt["examname"]}}{% endblock %}
+{% block content %}
+    <h1>Koe {{attempt["examname"]}}</h1>
+    <form method="POST">
+        {% for exercise in attempt["exercises"] %}
+            <p>
+                {{loop.index}}.) {{exercise['exercise_text']}}
+                <br>
+                <textarea name= "{{exercise['exercise_id']}}_answer" rows="4" cols="50" readonly maxlength="400">{{exercise["answer"]}}</textarea>
+                <input type="text" name="{{exercise['exercise_id']}}_score" value="{{exercise['score']}}"></input>/{{exercise['points']}}p.
+                <br>
+                <textarea name= "{{exercise['exercise_id']}}_notes" rows="4" cols="50" maxlength="400">{{exercise["note"]}}</textarea>
+            </p>
+        {% endfor %}
+        Suorituksen arvosana: <input name="grade" type="number" min="1" max="5" value="{{attempt['grade']}}">
+        <br>
+        <br>
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+        <input type="submit" value="Tallenna">
+    </form>
+{% endblock %}
