@@ -306,7 +306,7 @@ def view_attempt(attemptid):
     attempt=attempts.get_full_attempt_info(attemptid)
     if not attempt:
         return render_template("error.html", error="Suoritusta ei löytynyt")
-    if session["user_id"] != attempt["user_id"] and attempt["is_admin"] == 0:
+    if session["user_id"] != attempt["user_id"] and not session["admin"]:
         return render_template("error.html", error="Sinulla ei ole oikeutta katsella tätä suoritusta")
     return render_template("view-attempt.html", attempt=attempt)
 
