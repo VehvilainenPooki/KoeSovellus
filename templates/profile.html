@@ -17,18 +17,16 @@
         {% if session.admin %}
             <hr>
             <h2>Admin työkalut</h2>
-            <br>
-            <form action="/toggle-admin" method="GET">
+                        <form action="/toggle-admin" method="GET">
                 <input type="submit" value="Hallitse tilejä">
             </form>
             <br>
-            <form action="/create-exam" method="GET">
-                <input type="submit" value="Kokeen luonti">
-            </form>
-            <br>
-            <hr>
-            <h3>Kokeet:</h3>
+                        <br>
+                        <h3>Kokeet:</h3>
             {% include "exam-table.html" with context %}
+<form action="/create-exam" method="GET">
+                <input type="submit" value="Luo koe">
+            </form>
         {% endif %}
     {% endif %}
 {% endblock %}
