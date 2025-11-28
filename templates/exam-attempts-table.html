@@ -1,0 +1,39 @@
+<table>
+    <tr>
+        <th>Nimi</th>
+        <th>Suoritus</th>
+        <th>Siirry arviointiin</th>
+        <th>Arvosana</th>
+    </tr>
+    {% if not attempts %}
+        <tr>
+            <td>
+                Suorituksia
+            </td>
+            <td>
+                ei
+            </td>
+            <td>
+                löytynyt
+            </td>
+            <td>
+                .
+            </td>
+        </tr>
+    {% else %}
+        {% for attempt in attempts %}
+        <tr>
+            <td>{{attempt['username']}}</td>
+            <td>{{ attempt['id'] }}</td>
+            <td>
+                <form style="display: inline;" action="/review-attempt/{{ attempt['id'] }}" method="GET">
+                    <input type="submit" value="Siirry arviointiin">
+                </form>
+            </td>
+            <td>
+                1
+            </td>
+        </tr>
+        {% endfor %}
+    {% endif %}
+</table>
