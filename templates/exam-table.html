@@ -37,15 +37,23 @@
             </form>
         </td>
         <td>
-            <form style="display: inline;" action="/edit-exam/{{ exam['examname'] }}" method="GET">
-                <input type="submit" value="Muokkaa">
-            </form>
+            {% if exam['has_attempt'] %}
+                ⛔️
+            {% else %}
+                <form style="display: inline;" action="/edit-exam/{{ exam['examname'] }}" method="GET">
+                    <input type="submit" value="Muokkaa">
+                </form>
+            {% endif %}
         </td>
         <td>
-            <form style="display: inline;" action="/remove-exam/{{ exam['examname'] }}" method="POST">
-                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-                <input type="submit" value="Poista">
-            </form>
+            {% if exam['has_attempt'] %}
+                ⛔️
+            {% else %}
+                <form style="display: inline;" action="/remove-exam/{{ exam['examname'] }}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+                    <input type="submit" value="Poista">
+                </form>
+            {% endif %}
         </td>
     </tr>
     {% endfor %}
