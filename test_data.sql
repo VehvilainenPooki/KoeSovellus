@@ -216,3 +216,42 @@ INSERT INTO exercises(exam_id, exercise, points) VALUES (
     'ympäri ämpäri',
     3
 );
+
+/*Some pseudorandom data for attempts*/
+INSERT INTO exam_attempts (exam_id, user_id, grade)
+SELECT
+    e.id,
+    u.id,
+    CASE
+        WHEN (u.id + e.id) % 4 = 0 THEN NULL
+        ELSE ((u.id + e.id) % 5) + 1
+    END AS grade
+FROM users u
+JOIN exams e
+WHERE (u.id + e.id) % 4 != 3;
+
+WITH min_ex AS (
+    SELECT exam_id, MIN(id) AS min_id
+    FROM exercises
+    GROUP BY exam_id
+)
+INSERT INTO exercise_attempts (attempt_id, exercise_id, answer, score, note)
+SELECT
+    ea.id          AS attempt_id,
+    ex.id          AS exercise_id,
+    'Answer to '||ex.exercise||' by '||u.username   AS answer,
+    CASE
+        WHEN ((ea.id + ex.id) % 6) = 0 THEN NULL
+        WHEN ((ea.id + ex.id) % 6) = 1 THEN 0
+        WHEN ((ea.id + ex.id) % 6) = 2 THEN 4
+        WHEN ((ea.id + ex.id) % 6) = 3 THEN 7
+        WHEN ((ea.id + ex.id) % 6) = 4 THEN 10
+        WHEN ((ea.id + ex.id) % 6) = 5 THEN 13
+    END                                           AS score,
+    '' AS note
+FROM exam_attempts ea
+JOIN exercises ex          ON ex.exam_id = ea.exam_id
+JOIN users u               ON u.id = ea.user_id
+LEFT JOIN min_ex m         ON m.exam_id = ex.exam_id
+                          AND m.min_id = ex.id
+WHERE m.min_id IS NULL;
