@@ -250,7 +250,7 @@ def get_exam_statistics():
     for row in result:
         entry = {
             'examname': row['examname'],
-            'average_grade': row['average_grade'],
+            'average_grade': round(row['average_grade'], 1),
             'attempts': row['total_attempts'],
             'attempts_graded': row['graded_attempts']
         }
