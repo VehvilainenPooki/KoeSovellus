@@ -217,6 +217,28 @@ INSERT INTO exercises(exam_id, exercise, points) VALUES (
     3
 );
 
+INSERT INTO exams(id, examname, start_key, active) VALUES (
+    4,
+    'TKT12345',
+    'Avain12345',
+    0
+);
+INSERT INTO exercises(exam_id, exercise, points) VALUES (
+    4,
+    'Muokattava',
+    20
+);
+INSERT INTO exercises(exam_id, exercise, points) VALUES (
+    4,
+    'Koe',
+    31
+);
+INSERT INTO exercises(exam_id, exercise, points) VALUES (
+    4,
+    'Ei suorituksia',
+    12
+);
+
 /*Some pseudorandom data for attempts*/
 INSERT INTO exam_attempts (exam_id, user_id, grade)
 SELECT
@@ -228,7 +250,8 @@ SELECT
     END AS grade
 FROM users u
 JOIN exams e
-WHERE (u.id + e.id) % 4 != 3;
+WHERE (u.id + e.id) % 4 != 3
+    AND e.id != 4;
 
 WITH min_ex AS (
     SELECT exam_id, MIN(id) AS min_id
@@ -268,7 +291,8 @@ SELECT
     END AS grade
 FROM users u
 JOIN exams e
-WHERE (u.id + e.id) % 4 != 3;
+WHERE (u.id + e.id) % 4 != 3
+    AND e.id != 4;
 
 WITH min_ex AS (
     SELECT exam_id, MIN(id) AS min_id
