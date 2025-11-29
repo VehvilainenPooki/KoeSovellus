@@ -1,39 +1,28 @@
 <table>
+    {% if attempts %}
     <tr>
         <th>Nimi</th>
         <th>Suoritus</th>
         <th>Tarkastele tuloksia</th>
         <th>Arvosana</th>
     </tr>
-    {% if not attempts %}
-        <tr>
-            <td>
-                Suorituksia
-            </td>
-            <td>
-                ei
-            </td>
-            <td>
-                löytynyt
-            </td>
-            <td>
-                .
-            </td>
-        </tr>
+    {% for attempt in attempts %}
+    <tr>
+        <td>{{ attempt['examname'] }}</td>
+        <td>{{ attempt['attempt_number'] }}</td>
+        <td>
+            <form style="display: inline;" action="/view-attempt/{{ attempt['id'] }}" method="GET">
+                <input type="submit" value="Tarkastele tuloksia">
+            </form>
+        </td>
+        <td>
+            {{attempt['grade']}}
+        </td>
+    </tr>
+    {% endfor %}
     {% else %}
-        {% for attempt in attempts %}
-        <tr>
-            <td>{{ attempt['examname'] }}</td>
-            <td>{{ attempt['attempt_number'] }}</td>
-            <td>
-                <form style="display: inline;" action="/view-attempt/{{ attempt['id'] }}" method="GET">
-                    <input type="submit" value="Tarkastele tuloksia">
-                </form>
-            </td>
-            <td>
-                {{attempt['grade']}}
-            </td>
-        </tr>
-        {% endfor %}
+    <tr>
+        <th>Yhtään suoritusta ei löytynyt tällä haulla</th>
+    </tr>
     {% endif %}
 </table>

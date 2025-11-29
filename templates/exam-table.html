@@ -1,4 +1,5 @@
 <table>
+    {% if exams %}
     <tr>
         <th>Nimi</th>
         <th>Aloitusavain</th>
@@ -48,4 +49,9 @@
         </td>
     </tr>
     {% endfor %}
+    {% else %}
+    <tr>
+        <th>Yhtään koetta ei löytynyt tällä haulla</th>
+    </tr>
+    {% endif %}
 </table>
