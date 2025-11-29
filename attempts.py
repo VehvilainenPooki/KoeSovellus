@@ -137,6 +137,7 @@ def get_user_attempts(user_id, filter=None):
         WHERE
         ea.user_id = :user_id AND
         (:filter IS NULL OR e.examname LIKE '%' || :filter || '%')
+        ORDER BY e.examname COLLATE NOCASE, ea.id DESC
     '''
     result = db.query(sql, {"user_id":user_id, "filter":filter})
     if not result:
@@ -185,6 +186,7 @@ def get_exam_attempts(exam_id, filter=None):
         WHERE
         ea.exam_id = :exam_id AND
         (:filter IS NULL OR u.username LIKE '%' || :filter || '%')
+        ORDER BY u.username COLLATE NOCASE
     '''
     result = db.query(sql, {"exam_id":exam_id, "filter":filter})
     if not result:

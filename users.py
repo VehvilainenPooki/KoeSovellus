@@ -32,11 +32,11 @@ def get_all_users_info(filter=False):
     print("[users] getting all users:")
     if filter:
         print("Filter exists and is:", filter)
-        sql = "SELECT id, username, is_admin FROM users WHERE username LIKE ?"
+        sql = "SELECT id, username, is_admin FROM users WHERE username LIKE ? ORDER BY username COLLATE NOCASE"
         result = db.query(sql, ["%" + filter + "%"])
     else:
         print("No filter, getting all")
-        sql = "SELECT id, username, is_admin FROM users"
+        sql = "SELECT id, username, is_admin FROM users ORDER BY username COLLATE NOCASE"
         result = db.query(sql)
     if not result:
         print("--no users exist")

@@ -59,7 +59,7 @@ def get_all_exams_info(filter=None):
     ]
     '''
     print("[exams] getting all exams:")
-    sql = "SELECT id, examname, start_key, active FROM exams WHERE (:filter IS NULL OR examname LIKE '%' || :filter || '%')"
+    sql = "SELECT id, examname, start_key, active FROM exams WHERE (:filter IS NULL OR examname LIKE '%' || :filter || '%') ORDER BY examname"
     result = db.query(sql, {"filter":filter})
     if not result:
         print("--no exams exist")
