@@ -130,14 +130,15 @@ def get_user_attempts(user_id, filter=None):
         ea.exam_id,
         e.examname,
         ea.grade,
-        u.username
+        u.username,
+        ROW_NUMBER() OVER (PARTITION BY ea.exam_id ORDER BY ea.id ASC) as attempt_number
         FROM exam_attempts ea
         JOIN exams e ON e.id = ea.exam_id
         JOIN users u ON u.id = ea.user_id
         WHERE
         ea.user_id = :user_id AND
         (:filter IS NULL OR e.examname LIKE '%' || :filter || '%')
-        ORDER BY e.examname COLLATE NOCASE, ea.id DESC
+        ORDER BY e.examname COLLATE NOCASE, attempt_number DESC
     '''
     result = db.query(sql, {"user_id":user_id, "filter":filter})
     if not result:
@@ -151,7 +152,8 @@ def get_user_attempts(user_id, filter=None):
             'user_id': row['user_id'],
             'examname': row['examname'],
             'username': row['username'],
-            'grade': row['grade']
+            'grade': row['grade'],
+            'attempt_number': row['attempt_number']
         }
         attempt_data.append(entry)
     print("--Successfully queried user attempts")
