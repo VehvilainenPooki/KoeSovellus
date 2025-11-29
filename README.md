@@ -1,10 +1,11 @@
 # KoeSovellus 2.0
-Tämä on versio 2.0 aloittamastani kurssin TiKaWe projektista. Alkuperäinen projekti löytyy haarasta version1.
-Verkkosovellus, jossa voi luoda kokeita, suorittaa kokeita ja tarkistaa kokeita.
+Tämä on versio 2.0 aloittamastani projektista Helsingin Yliopiston kurssille TiKaWe. Alkuperäinen projekti löytyy haarasta `version1`.
 
-## Sovelluksen kokeileminen WIP
+Sovellus on verkkosovellus, jossa voi luoda, suorittaa ja tarkistaa kokeita. Alla on kuvaaja sovelluksen rakenteesta:
+![Application_diagram](documentation/KoeSovellus.png)
+
+## Sovelluksen kokeileminen
 Sovellus on kirjoitettu Python 3.11 ja SQlite 3.51. Sinulla tulee olla asennettuna ne. Jotkin muut versiot saattavat toimia myös.
-
 asennus:
 - lataa sovellus
 - navigoi terminaalissa juuri kansioon
@@ -20,10 +21,12 @@ asennus:
 ```
 \> flask run
 ```
+Sovelluksessa on automaattisesti admin käyttäjä, jonka nimi on admin ja salasana on admin. Tämä käyttäjä toimii ainoastaan, jos käytät config.py moduulissa valmista `secret_key` arvoa.
 
-Sovelluksessa on automaattisesti admin käyttäjä, jonka nimi on admin ja salasana on admin.
+> [!CAUTION]  
+> Älä käytä projektin valmista `secret_key` arvoa, jos päädyt käyttämään jotain osaa projektista.
 
-Juuri kansiossa on myös test_data.sql, jossa on 15 perus käyttäjää ja 3 admin käyttäjää. Nämä käyttäjät voi lisätä tietokantaan samalla komennolla kuin skeman:
+Juuri kansiossa on myös test_data.sql. Testidatan voi lisätä tietokantaan komennolla:
 ```
 \> sqlite3 database.db < test_data.sql
 ```
