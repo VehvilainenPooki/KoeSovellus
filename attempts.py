@@ -254,7 +254,7 @@ def get_exam_statistics():
     for row in result:
         entry = {
             'examname': row['examname'],
-            'average_grade': round(row['average_grade'], 1),
+            'average_grade': round(row['average_grade'], 1) if row['average_grade'] is not None else "-",
             'attempts': row['total_attempts'],
             'attempts_graded': row['graded_attempts']
         }
