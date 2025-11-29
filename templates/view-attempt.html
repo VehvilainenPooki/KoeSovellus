@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block title %}Koe {{attempt["examname"]}}{% endblock %}
 {% block content %}
-    <h1>Koe {{attempt["examname"]}}</h1>
+    <h1>{{attempt["examname"]}}</h1>
     {% for exercise in attempt["exercises"] %}
         <p>
             {{loop.index}}.) {{exercise['exercise_text']}}
