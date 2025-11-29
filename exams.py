@@ -59,7 +59,17 @@ def get_all_exams_info(filter=None):
     ]
     '''
     print("[exams] getting all exams:")
-    sql = "SELECT id, examname, start_key, active FROM exams WHERE (:filter IS NULL OR examname LIKE '%' || :filter || '%') ORDER BY examname"
+    sql = '''SELECT
+                e.id,
+                e.examname,
+                e.start_key,
+                e.active,
+                CASE WHEN COUNT(ea.id) > 0 THEN 1 ELSE 0 END AS has_attempt
+            FROM exams e
+            LEFT JOIN exam_attempts ea ON e.id = ea.exam_id
+            WHERE (:filter IS NULL OR e.examname LIKE '%' || :filter || '%')
+            GROUP BY e.id, e.examname, e.start_key, e.active
+            ORDER BY e.examname'''
     result = db.query(sql, {"filter":filter})
     if not result:
         print("--no exams exist")
@@ -72,6 +82,7 @@ def get_all_exams_info(filter=None):
             'examname': row['examname'],
             'start_key': row['start_key'],
             'active': row['active'],
+            'has_attempt': bool(row['has_attempt'])
         }
         exams.append(exam_data)
     return exams
