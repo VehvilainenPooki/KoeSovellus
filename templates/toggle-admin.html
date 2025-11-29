@@ -7,40 +7,39 @@
     {% set search_action = url_for(request.endpoint) %}
     {% include "search-bar.html" with context %}
     <table>
+        {% if users %}
         <tr>
             <th>Käyttäjänimi</th>
             <th>Admin-oikeudet</th>
         </tr>
-        {% if users %}
-            {% for user in users %}
-            <tr>
-                <td>{{ user['username'] }}</td>
-                <td>
-                    {% if user['is_admin'] == 1 %}
-                        ✔️
-                        <form style="display: inline;" action="/toggle-admin" method="POST">
-                            <input type="hidden" name="argument" value="remove">
-                            <input type="hidden" name="toggleUsername" value="{{ user['username'] }}">
-                            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-                            <input type="submit" value="Deaktivoi">
-                        </form>
-                    {% else %}
-                        ❌
-                        <form style="display: inline;" action="/toggle-admin" method="POST">
-                            <input type="hidden" name="argument" value="add">
-                            <input type="hidden" name="toggleUsername" value="{{ user['username'] }}">
-                            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-                            <input type="submit" value="Aktivoi">
-                        </form>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
+        {% for user in users %}
+        <tr>
+            <td>{{ user['username'] }}</td>
+            <td>
+                {% if user['is_admin'] == 1 %}
+                    ✔️
+                    <form style="display: inline;" action="/toggle-admin" method="POST">
+                        <input type="hidden" name="argument" value="remove">
+                        <input type="hidden" name="toggleUsername" value="{{ user['username'] }}">
+                        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+                        <input type="submit" value="Deaktivoi">
+                    </form>
+                {% else %}
+                    ❌
+                    <form style="display: inline;" action="/toggle-admin" method="POST">
+                        <input type="hidden" name="argument" value="add">
+                        <input type="hidden" name="toggleUsername" value="{{ user['username'] }}">
+                        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+                        <input type="submit" value="Aktivoi">
+                    </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
         {% else %}
-            <tr>
-                <td>Käyttäjiä</td>
-                <td>ei löytynyt</td>
-            </tr>
+        <tr>
+            <th>Käyttäjiä ei löytynyt tällä haulla</th>
+        </tr>
         {% endif %}
     </table>
 {% endblock %}
