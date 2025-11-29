@@ -76,10 +76,10 @@ def get_full_attempt_info(attempt_id):
         JOIN users ON exam_attempts.user_id = users.id
         LEFT JOIN exercise_attempts ON exam_attempts.id = exercise_attempts.attempt_id
         LEFT JOIN exercises ON exercise_attempts.exercise_id = exercises.id
-        WHERE exam_attempts.id = (?)
+        WHERE exam_attempts.id = :attempt_id
         ORDER BY exercises.id;
     '''
-    result = db.query(sql, attempt_id)
+    result = db.query(sql, {"attempt_id": attempt_id})
     if not result:
         return False
     attempt_data = {
