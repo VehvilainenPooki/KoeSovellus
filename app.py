@@ -48,7 +48,7 @@ def account_creation():
     is_admin = 0
     if password == password_again:
         users.create_account(username, password, is_admin)
-        return render_template("create-account.html")
+        return render_template("create-account.html", message="Tunnuksen luominen onnistui")
     return render_template("create-account.html")
 
 @app.route("/login", methods=["GET","POST"])
